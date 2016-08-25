@@ -1,0 +1,10 @@
+spring:
+  profiles.active: default
+---
+spring:
+  profiles: default
+spring.datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://nvrbhd.info:3306/nvrbhd83_commitr
+  username: nvrbhd83_commitr
+  password: 2eR5mAi;gIxl
