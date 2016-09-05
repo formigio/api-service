@@ -4,6 +4,7 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
+        jcenter()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -12,6 +13,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 jar {
@@ -23,6 +25,7 @@ targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+    jcenter()
 }
 
 
@@ -32,7 +35,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-devtools')
 	compile('org.projectlombok:lombok')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('mysql:mysql-connector-java')
+    compile('io.springfox:springfox-swagger2:2.5.0')
+	runtime('org.hsqldb:hsqldb')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
@@ -42,4 +46,8 @@ eclipse {
 		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
 		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
 	}
+}
+
+task wrapper(type: Wrapper) {
+        gradleVersion = '2.10'
 }

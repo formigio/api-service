@@ -1,10 +1,18 @@
 spring:
-  profiles.active: default
+  profiles.active: local
 ---
 spring:
-  profiles: default
-spring.datasource:
-  driverClassName: com.mysql.jdbc.Driver
-  url: jdbc:mysql://nvrbhd.info:3306/nvrbhd83_commitr
-  username: nvrbhd83_commitr
-  password: 2eR5mAi;gIxl
+  profiles: local
+  jpa:
+    database: hsql
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+---
+spring:
+  profiles: prod
+  jpa:
+    database: hsql
+    hibernate:
+      ddl-auto: update
+    show-sql: false  
