@@ -1,0 +1,19 @@
+spring:
+  profiles.active: local
+---
+spring:
+  autoconfigure.exclude: org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+  profiles: local
+  jpa:
+    database: hsql
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+---
+spring:
+  profiles: prod
+  jpa:
+    database: hsql
+    hibernate:
+      ddl-auto: update
+    show-sql: false  
