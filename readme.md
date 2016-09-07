@@ -4,6 +4,9 @@ Spring Boot JPA Based REST Service
 
 Currently using HSQLDB as the database engine.
 
+##Running
+`java -jar -Dspring.profiles.active=prod commitr-service-0.0.1-SNAPSHOT.jar`
+
 ##Development
 Local development is pretty straightforwrd, 
 **nix*
@@ -15,7 +18,7 @@ Local server is also simple,
 **nix*
 `./gradlew bootrun`
 *Windows*
-`gradlew clean build`
+`gradlew bootrun`
 
 ###Idea
 **nix*
