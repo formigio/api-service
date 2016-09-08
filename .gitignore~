@@ -5,7 +5,7 @@ gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
 #idea-specific for gradle
-#gradle/wrapper/gradle-wrapper.properties
+gradle/wrapper/gradle-wrapper.properties
 
 #OSX
 .DS_Store
