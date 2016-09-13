@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+DOCKER_BIN=$(which docker)
+if [ -z "$DOCKER_BIN" ]
+    then
+    echo "We can't find the docker executable. Docker is required for this build process"
+    exit
+fi
+
+OPENJDK_IMAGE=$(docker images openjdk -q)
+if [ -z "$OPENJDK_IMAGE" ]
+    then
+    echo "You need to pull down the openjdk docker image for this build"
+    echo "Pull down now? (y/n)"
+    READ PULLJDK
+    if [ "$PULLJDK" == "y" ]
+        then
+        docker pull openjdk
+    else
+        exit
+    fi
+fi
+
+echo "Building the Java App Jar file... "
+
+docker run -v $(pwd):/var/service -w="/var/service" openjdk /var/service/gradlew clean build
+
+echo "Building the Docker Image... "
+
+docker build "." -t commitr_service:latest
