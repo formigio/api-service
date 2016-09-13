@@ -4,6 +4,12 @@ Spring Boot JPA Based REST Service
 
 Currently using HSQLDB as the database engine.
 
+##Quick Start
+1. Clone this repo
+1. `./buildimage` (This builds the Java app and the Docker Image)
+1. `docker run -p "8080:8080" commitr_service:latest`
+2. Use localhost:8080 as REST client endpoint
+
 ##Building
 `docker run -v [path/to/repo]:/var/service -w="/var/service" [openjdk image] /var/service/gradlew clean build`
 
