@@ -4,6 +4,8 @@ import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * Created by Peter Douglas on 9/6/2016.
  */
@@ -19,7 +21,7 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal getGoal() {
-        return null;
+    public Goal getGoal(UUID uuid) {
+        return repository.findByGuid(uuid);
     }
 }

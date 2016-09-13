@@ -7,16 +7,23 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import javax.validation.Validator;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,5 +57,25 @@ public class GoalControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.title",containsString("Goal Test")));
+    }
+
+    @Test
+    public void getGoalWithValidUUID() throws Exception {
+        given(this.service.getGoal(DTOUtils.VALID_UUID))
+                .willReturn(DTOUtils.createGoal(DTOUtils.VALID_UUID, "Goal Test"));
+        this.mvc.perform(get("/goal/" + DTOUtils.VALID_UUID)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$.title", containsString("Goal Test")));
+    }
+
+    @Test
+    public void getGoalWithInvalidGuid() throws Exception {
+        this.mvc.perform(get("/goal/invalid-uuid-format")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().is4xxClientError());
+
     }
 }

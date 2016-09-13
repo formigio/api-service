@@ -47,8 +47,19 @@ public class GoalServiceTest {
         assertThat(goal.getTitle()).isEqualTo("Test Goal");
     }
 
+    @Test
+    public void getGoal() throws Exception {
+        given(this.goalRepository.findByGuid(DTOUtils.VALID_UUID)).willReturn(DTOUtils.createGoal(DTOUtils.VALID_UUID, "Test Goal"));
+
+        Goal goal = goalService.getGoal(DTOUtils.VALID_UUID);
+
+        assertThat(goal.getGuid()).isNotNull();
+        assertThat(goal.getGuid()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(goal.getTitle()).isEqualTo("Test Goal");
+    }
+
     @Configuration
-    static class Config {
+    static class ServiceConfig {
         @Mock
         GoalRepository repository;
 
