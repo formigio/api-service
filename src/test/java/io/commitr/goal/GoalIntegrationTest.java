@@ -32,7 +32,7 @@ public class GoalIntegrationTest {
         Goal goal = DTOUtils.createGoal(null, "first goal");
         Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
 
-        assertThat(response.getGuid()).isNotNull();
+        assertThat(response.getUuid()).isNotNull();
 
     }
 
@@ -41,7 +41,7 @@ public class GoalIntegrationTest {
         Goal goal = DTOUtils.createGoal(DTOUtils.VALID_UUID, "first goal");
         Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
 
-        assertThat(response.getGuid()).isEqualByComparingTo(DTOUtils.VALID_UUID);
+        assertThat(response.getUuid()).isEqualByComparingTo(DTOUtils.VALID_UUID);
     }
 
     @Test

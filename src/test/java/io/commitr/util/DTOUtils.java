@@ -12,7 +12,7 @@ public class DTOUtils {
     public static String VALID_UUID_STRING = "ab13ca05-6706-45e1-b2aa-2394fc09d3a0";
     public static Goal createGoal(UUID guid, String title) {
         Goal goal = new Goal();
-        goal.setGuid(guid);
+        goal.setUuid(guid);
         goal.setTitle(title);
 
         return goal;

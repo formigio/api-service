@@ -35,9 +35,9 @@ public class GoalRepositoryTest {
                 DTOUtils.createGoal(DTOUtils.VALID_UUID,
                         "Test Goal"));
 
-        Goal goal = repository.findByGuid(DTOUtils.VALID_UUID);
+        Goal goal = repository.findByUuid(DTOUtils.VALID_UUID);
 
-        assertThat(goal.getGuid().toString())
+        assertThat(goal.getUuid().toString())
                 .containsPattern("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
         assertThat(goal.getTitle()).isEqualTo("Test Goal");
     }

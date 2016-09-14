@@ -25,7 +25,7 @@ public class GoalTest {
     public void testSerializeWithGuid() throws Exception {
         Goal goal = new Goal();
         goal.setId(1L);
-        goal.setGuid(DTOUtils.VALID_UUID);
+        goal.setUuid(DTOUtils.VALID_UUID);
         goal.setTitle("Goal Test");
 
         assertThat(this.json.write(goal))
@@ -46,7 +46,7 @@ public class GoalTest {
     public void testDeserializeWithGuid() throws Exception {
 
         Goal goal = new Goal();
-        goal.setGuid(DTOUtils.VALID_UUID);
+        goal.setUuid(DTOUtils.VALID_UUID);
         goal.setTitle("Test Goal");
 
         String content = "{" +
@@ -58,7 +58,7 @@ public class GoalTest {
         assertThat(this.json.parse(content))
                 .isEqualTo(goal);
         assertThat(this.json.parseObject(content).getId()).isNull();
-        assertThat(this.json.parseObject(content).getGuid()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(this.json.parseObject(content).getUuid()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(this.json.parseObject(content).getTitle()).isEqualTo("Test Goal");
     }
 }

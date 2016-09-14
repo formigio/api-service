@@ -22,6 +22,6 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public Goal getGoal(UUID uuid) {
-        return repository.findByGuid(uuid);
+        return repository.findByUuid(uuid);
     }
 }

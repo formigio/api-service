@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,16 +26,16 @@ public class Goal {
 	private Long id;
 
 	@NotNull
-
-	private UUID guid;
+	@JsonProperty("guid")
+	private UUID uuid;
 
 	@Length(max = 255)
 	private String title;
 
 	@PrePersist
 	void prePersist() {
-		if (null==this.guid) {
-			this.guid = UUID.randomUUID();
+		if (null==this.uuid) {
+			this.uuid = UUID.randomUUID();
 		}
 	}
 }

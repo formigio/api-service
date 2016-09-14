@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface GoalRepository extends JpaRepository<Goal, String>{
+public interface GoalRepository extends JpaRepository<Goal, UUID>{
 	
-	public Goal findByGuid(UUID guid);
+	public Goal findByUuid(UUID uuid);
 }
