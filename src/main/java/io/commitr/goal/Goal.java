@@ -1,20 +1,15 @@
 package io.commitr.goal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.commitr.task.Task;
 import lombok.Data;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -31,6 +26,10 @@ public class Goal {
 
 	@Length(max = 255)
 	private String title;
+
+	@OneToMany(mappedBy = "goal", cascade = CascadeType.ALL)
+	@Null
+	private Set<Task> tasks;
 
 	@PrePersist
 	void prePersist() {
