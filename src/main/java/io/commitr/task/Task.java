@@ -2,13 +2,15 @@ package io.commitr.task;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.prism.shader.DrawCircle_Color_AlphaTest_Loader;
 import io.commitr.goal.Goal;
 import lombok.Data;
-import lombok.NonNull;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -31,7 +33,7 @@ public class Task {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "goal_uuid")
+    @JoinColumn(name = "goal_uuid", nullable = false, updatable = false)
     private Goal goal;
 
     private Boolean completed;

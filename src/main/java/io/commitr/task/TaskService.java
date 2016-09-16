@@ -6,8 +6,7 @@ import java.util.UUID;
  * Created by peter on 9/14/16.
  */
 public interface TaskService {
-    public Task createTask(Task task);
-    public Task getTask(UUID uuid);
-    public Task updateTask(Task task);
-    public void delete(Task task);
+    public Task saveTask(Task task);
+    public TaskDTO getTask(UUID uuid);
+    public void delete(UUID uuid);
 }

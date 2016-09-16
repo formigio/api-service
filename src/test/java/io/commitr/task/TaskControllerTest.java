@@ -3,6 +3,7 @@ package io.commitr.task;
 import io.commitr.goal.Goal;
 import io.commitr.util.DTOUtils;
 import io.commitr.util.JsonUtils;
+import lombok.Data;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.UUID;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.containsString;
@@ -25,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(TaskController.class)
-public class TaskContollerTest {
+public class TaskControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -43,7 +46,7 @@ public class TaskContollerTest {
         taskDTO.setGoal(DTOUtils.VALID_UUID_STRING);
         taskDTO.setCompleted(false);
 
-        given(this.service.createTask(task))
+        given(this.service.saveTask(task))
                 .willReturn(DTOUtils.createTask(DTOUtils.VALID_UUID, "Task Test",
                         DTOUtils.createGoal(DTOUtils.VALID_UUID, "Task Test Goal"), false));
 
@@ -60,11 +63,15 @@ public class TaskContollerTest {
     @Test
     public void getTask() throws Exception {
 
+        TaskDTOImpl dto = new TaskDTOImpl();
+
+        dto.setUuid(DTOUtils.VALID_UUID);
+        dto.setTitle("Task Test");
+        dto.setGuid(DTOUtils.VALID_UUID);
+        dto.setCompleted(false);
+
         given(this.service.getTask(DTOUtils.VALID_UUID))
-                .willReturn(DTOUtils.createTask(DTOUtils.VALID_UUID,
-                        "Task Test",
-                        DTOUtils.createGoal(DTOUtils.VALID_UUID, "Task Test Goal"),
-                        false));
+                .willReturn(dto);
 
         this.mvc.perform(get(format("/task/%s", DTOUtils.VALID_UUID_STRING)))
                 .andExpect(status().isOk())
@@ -83,7 +90,7 @@ public class TaskContollerTest {
         taskDTO.setGoal(DTOUtils.VALID_UUID_STRING);
         taskDTO.setCompleted(false);
 
-        given(this.service.createTask(task))
+        given(this.service.saveTask(task))
                 .willReturn(task);
 
         this.mvc.perform(put("/task")
@@ -106,7 +113,7 @@ public class TaskContollerTest {
         taskDTO.setGoal(DTOUtils.VALID_UUID_STRING);
         taskDTO.setCompleted(true);
 
-        given(this.service.createTask(task))
+        given(this.service.saveTask(task))
                 .willReturn(task);
 
         this.mvc.perform(put("/task")
@@ -125,5 +132,33 @@ public class TaskContollerTest {
         this.mvc.perform(delete("/task/{uuid}", DTOUtils.VALID_UUID))
                 .andExpect(status().is2xxSuccessful());
 
+    }
+
+    @Data
+    static class TaskDTOImpl implements TaskDTO {
+        private UUID uuid;
+        private String title;
+        private UUID guid;
+        private Boolean completed;
+
+        @Override
+        public UUID getUuid() {
+            return this.uuid;
+        }
+
+        @Override
+        public String getTitle() {
+            return this.title;
+        }
+
+        @Override
+        public UUID getGoal() {
+            return this.guid;
+        }
+
+        @Override
+        public Boolean getCompleted() {
+            return this.completed;
+        }
     }
 }
