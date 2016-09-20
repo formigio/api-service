@@ -1,19 +1,19 @@
 package io.commitr.task;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.UUID;
 
 /**
- * Created by peter on 9/15/16.
+ * Created by peter on 9/17/16.
  */
-public interface TaskDTO {
-    UUID getUuid();
-
-    String getTitle();
-
-    @Value("#target.goal.uuid")
-    UUID getGoal();
-
-    Boolean getCompleted();
+@Data
+public class TaskDTO implements TaskDTOInterface {
+    @JsonProperty("guid")
+    private UUID uuid;
+    private String title;
+    private UUID goal;
+    private Boolean completed;
 }

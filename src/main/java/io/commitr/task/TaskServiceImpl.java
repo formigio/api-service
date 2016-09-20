@@ -1,5 +1,7 @@
 package io.commitr.task;
 
+import io.commitr.goal.Goal;
+import io.commitr.goal.GoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,21 +15,55 @@ import java.util.UUID;
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
-    TaskRepository repository;
+    TaskRepository taskRepository;
+
+    @Autowired
+    GoalRepository goalRepository;
 
     @Override
     @Transactional
-    public Task saveTask(Task task) {
-        return repository.save(task);
+    public Task saveTask(TaskDTO task) {
+        Task t = new Task();
+
+        t.setUuid(task.getUuid());
+        t.setTitle(task.getTitle());
+        t.setGoal(goalRepository.findByUuid(task.getGoal()));
+        t.setCompleted(task.getCompleted());
+
+        taskRepository.save(t);
+
+        return t;
+    }
+
+    @Override
+    @Transactional
+    public void updateTask(TaskDTO dto) {
+        Task t = taskRepository.findByUuid(dto.getUuid());
+
+        t.setTitle(dto.getTitle());
+        t.setCompleted(dto.getCompleted());
+
+        taskRepository.saveAndFlush(t);
     }
 
     @Override
     public TaskDTO getTask(UUID uuid) {
-        return repository.findByUuid(uuid);
+        Task t = taskRepository.findByUuid(uuid);
+
+        TaskDTO dto = new TaskDTO();
+
+        dto.setUuid(t.getUuid());
+        dto.setTitle(t.getTitle());
+        dto.setGoal(t.getGoal().getUuid());
+        dto.setCompleted(t.getCompleted());
+
+        return dto;
     }
 
     @Override
+    @Transactional
     public void delete(UUID uuid) {
-        repository.delete(uuid);
+        taskRepository.deleteByUuid(uuid);
     }
+
 }

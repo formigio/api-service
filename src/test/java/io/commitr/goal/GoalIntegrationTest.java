@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -60,5 +61,15 @@ public class GoalIntegrationTest {
         ResponseEntity<Goal> goalResponse = restTemplate.exchange(new URI("http://localhost:"+ port +"/goal"), HttpMethod.POST, request, Goal.class);
 
         assertThat(goalResponse.getStatusCodeValue()).isBetween(400, 499);
+    }
+
+    @Test
+    public void getGoal() throws Exception {
+        Goal goal = DTOUtils.createGoal(null, "first goal");
+        Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
+
+        goal = this.restTemplate.getForObject(format("/goal/%s", response.getUuid().toString()),Goal.class);
+
+        assertThat(goal.getUuid()).isEqualByComparingTo(response.getUuid());
     }
 }

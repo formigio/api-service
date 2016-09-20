@@ -61,7 +61,7 @@ public class TaskRepositoryTest {
                         goal,
                         false));
 
-        TaskDTO task = repository.findByUuid(taskSaved.getUuid());
+        Task task = repository.findByUuid(taskSaved.getUuid());
 
         assertThat(task.getUuid())
                 .isEqualTo(taskSaved.getUuid());
@@ -85,6 +85,20 @@ public class TaskRepositoryTest {
 
         assertThat(task.getTitle()).isEqualTo("Test Update Task");
         assertThat(task.getCompleted()).isTrue();
+
+    }
+
+    @Test
+    public void deleteTask() throws Exception {
+        Task task = repository.saveAndFlush(
+                DTOUtils.createTask(null, "Test Task",
+                        goal,
+                        false)
+        );
+
+        assertThat(task.getUuid()).isNotNull();
+
+        assertThat(repository.deleteByUuid(task.getUuid())).isGreaterThan(0);
 
     }
 }

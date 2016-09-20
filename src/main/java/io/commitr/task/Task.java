@@ -2,15 +2,14 @@ package io.commitr.task;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.prism.shader.DrawCircle_Color_AlphaTest_Loader;
 import io.commitr.goal.Goal;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.beans.ConstructorProperties;
 import java.util.UUID;
 
 /**

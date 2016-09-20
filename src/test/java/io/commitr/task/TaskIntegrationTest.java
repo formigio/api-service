@@ -3,7 +3,6 @@ package io.commitr.task;
 import io.commitr.goal.Goal;
 import io.commitr.util.DTOUtils;
 import io.commitr.util.JsonUtils;
-import lombok.Data;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,45 +32,61 @@ public class TaskIntegrationTest {
     int port;
 
     @Test
-    public void getTaskWithValidUUID() throws Exception {
-        Task task = postTestTask();
+    public void getTask() throws Exception {
+        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
 
-        ResponseEntity<Task> response = getTaskResponseEntity(task.getUuid());
+        DTOUtils.TaskDTO task = DTOUtils.TaskDTOBuilder.of(null, "Create a task with a valid Goal - Task", validGoal.getUuid().toString(), false);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
-        assertThat(response.getBody().getUuid()).isEqualByComparingTo(task.getUuid());
+        TaskDTO dto = this.restTemplate.postForObject("/task", task, TaskDTO.class);
+
+        assertThat(dto).isNotNull();
+
     }
 
     @Test
-    public void createTaskWithValidGoal() {
+    public void createTaskWithValidGoal() throws Exception{
 
         Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
 
-        Task task = DTOUtils.createTask(null, "Create a task with a valid Goal - Task", validGoal, false);
+        TaskDTO task = new TaskDTO();
 
-        ResponseEntity<Task> response = postTaskWithResponseEntity(task);
+        task.setUuid(null);
+        task.setTitle("Create a task with a valid Goal - Task");
+        task.setGoal(validGoal.getUuid());
+        task.setCompleted(false);
+
+        ResponseEntity<TaskDTO> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, TaskDTO.class);
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getStatusCodeValue()).isEqualTo(201);
-        assertThat(response.getBody().getUuid()).isEqualByComparingTo(task.getUuid());
-        assertThat(response.getBody().getGoal()).isEqualToComparingFieldByField(validGoal);
+        assertThat(response.getBody().getUuid()).isEqualTo(task.getUuid());
+        assertThat(response.getBody().getGoal()).isEqualTo(validGoal.getUuid().toString());
     }
 
     @Test
     public void getGoalWithValidTask() throws Exception{
-        Task response = postTestTask();
+        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
 
-        Goal goal = this.restTemplate.getForObject(new URI(format("http://localhost:%d/task/%s", port,
-                response.getGoal().getUuid().toString())), Goal.class);
+        TaskDTO task = new TaskDTO();
+
+        task.setUuid(null);
+        task.setTitle("Create a task with a valid Goal - Task");
+        task.setGoal(validGoal.getUuid());
+        task.setCompleted(false);
+
+        ResponseEntity<TaskDTO> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, TaskDTO.class);
+
+        Goal goal = this.restTemplate.getForObject(new URI(format("http://localhost:%d/goal/%s", port,
+                response.getBody().getGoal().toString())), Goal.class);
 
         assertThat(goal.getTasks().contains(response)).isTrue();
     }
 
     @Test
     public void createTaskWithNonValidGoal() {
-        Task task = DTOUtils.createTask(null, "Test Task - Invalid Goal",new Goal(), false);
+        DTOUtils.TaskDTO task = DTOUtils.TaskDTOBuilder.of(null, "Test Task - Invalid Goal",DTOUtils.NON_VALID_UUID_STRING, false);
 
-        ResponseEntity<Task> response = postTaskWithResponseEntity(task);
+        ResponseEntity<DTOUtils.TaskDTO> response = postTaskWithResponseEntity(task);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(400);
         //TODO: Need to also check that a valid error message is coming back with the response
@@ -79,11 +94,12 @@ public class TaskIntegrationTest {
 
     @Test
     public void createTaskWithInvalidUUIDFormat() throws Exception{
-        DTOUtils.TaskDTO taskDTO = new DTOUtils().new TaskDTO();
-        taskDTO.setUuid("invalid-uuid-format");
-        taskDTO.setTitle("Bad UUID Task Update Test");
-        taskDTO.setGoal(DTOUtils.VALID_UUID_STRING);
-        taskDTO.setCompleted(false);
+
+        DTOUtils.TaskDTO taskDTO = DTOUtils.TaskDTOBuilder.of(
+                "invalid-uuid-format",
+                "Bad UUID Task Update Test",
+                DTOUtils.VALID_UUID_STRING,
+                false);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -98,24 +114,36 @@ public class TaskIntegrationTest {
 
     @Test
     public void updateTaskWithValidUUID() throws Exception {
-        Task task = postTestTask();
+        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
 
+        TaskDTO task = new TaskDTO();
+
+        task.setUuid(null);
+        task.setTitle("Create a task with a valid Goal - Task");
+        task.setGoal(validGoal.getUuid());
+        task.setCompleted(false);
+
+        ResponseEntity<TaskDTO> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, TaskDTO.class);
+
+        task.setUuid(response.getBody().getUuid());
         task.setTitle("Test Update Task");
 
         this.restTemplate.put("/task", task);
 
-        Task updatedTask = getTestTask(task.getUuid());
+        ResponseEntity<TaskDTO> responseWithUpdate = this.restTemplate.getForEntity(new URI(format("http://localhost:%d/task/%s", port, response.getBody().getUuid().toString())), TaskDTO.class);
 
-        assertThat(updatedTask.getTitle()).isEqualTo("Test Update Task");
+        assertThat(responseWithUpdate.getBody().getTitle()).isEqualTo("Test Update Task");
     }
 
     @Test
     public void updateTaskWithNonValidUUID() throws Exception{
-        DTOUtils.TaskDTO taskDTO = new DTOUtils().new TaskDTO();
-        taskDTO.setUuid("invalid-uuid-format");
-        taskDTO.setTitle("Bad UUID Task Update Test");
-        taskDTO.setGoal(DTOUtils.VALID_UUID_STRING);
-        taskDTO.setCompleted(false);
+
+
+        DTOUtils.TaskDTO taskDTO = DTOUtils.TaskDTOBuilder.of(
+                "invalid-uuid-format",
+                "Bad UUID Task Update Test",
+                DTOUtils.VALID_UUID_STRING,
+                false);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -130,11 +158,11 @@ public class TaskIntegrationTest {
 
     @Test
     public void updateTaskWithNonValidGoal() throws Exception{
-        DTOUtils.TaskDTO taskDTO = new DTOUtils().new TaskDTO();
-        taskDTO.setUuid(DTOUtils.VALID_UUID_STRING);
-        taskDTO.setTitle("Bad UUID Task Update Test");
-        taskDTO.setGoal(DTOUtils.NON_VALID_UUID_STRING);
-        taskDTO.setCompleted(false);
+        DTOUtils.TaskDTO taskDTO = DTOUtils.TaskDTOBuilder.of(
+                "invalid-uuid-format",
+                "Bad UUID Task Update Test",
+                DTOUtils.VALID_UUID_STRING,
+                false);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -149,17 +177,17 @@ public class TaskIntegrationTest {
 
     @Test
     public void deleteTaskWithValidUUID() throws Exception{
-        Task task = postTestTask();
+        DTOUtils.TaskDTO task = postTestTask();
 
-        ResponseEntity<Task> response;
+        ResponseEntity<DTOUtils.TaskDTO> response;
 
-        response = getTaskResponseEntity(task.getUuid());
+        response = getTaskResponseEntity(UUID.fromString(task.getUuid()));
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
 
         this.restTemplate.delete(new URI(format("http:localhost:%d/task/%s",port,task.getUuid().toString())));
 
-        response = getTaskResponseEntity(task.getUuid());
+        response = getTaskResponseEntity(UUID.fromString(task.getUuid()));
 
         assertThat(response.getStatusCodeValue()).isEqualTo(404);
     }
@@ -173,30 +201,32 @@ public class TaskIntegrationTest {
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
     }
 
-    private Task postTestTask() {
-        Task task = DTOUtils.createTask(null,
+    private DTOUtils.TaskDTO postTestTask() {
+        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+
+        DTOUtils.TaskDTO task = DTOUtils.TaskDTOBuilder.of(null,
                 "Test Task",
-                DTOUtils.createGoal(UUID.randomUUID(), "Test Parent Goal"),
+                validGoal.getUuid().toString(),
                 false);
 
         return postTestTask(task);
     }
 
-    private Task postTestTask(Task task) {
+    private DTOUtils.TaskDTO postTestTask(DTOUtils.TaskDTO task) {
         return postTaskWithResponseEntity(task).getBody();
     }
 
-    private ResponseEntity<Task> postTaskWithResponseEntity(Task task) {
-        return this.restTemplate.postForEntity("/task", task, Task.class);
+    private ResponseEntity<DTOUtils.TaskDTO> postTaskWithResponseEntity(DTOUtils.TaskDTO task) {
+        return this.restTemplate.postForEntity("/task", task, DTOUtils.TaskDTO.class);
     }
 
-    private Task getTestTask(UUID uuid) throws Exception {
+    private DTOUtils.TaskDTO getTestTask(UUID uuid) throws Exception {
         return getTaskResponseEntity(uuid).getBody();
     }
 
-    private ResponseEntity<Task> getTaskResponseEntity(UUID uuid) throws Exception {
+    private ResponseEntity<DTOUtils.TaskDTO> getTaskResponseEntity(UUID uuid) throws Exception {
         return this.restTemplate.getForEntity(new URI(format("http://localhost:%d/task/%s", port, uuid.toString())),
-                Task.class);
+                DTOUtils.TaskDTO.class);
     }
 
 }

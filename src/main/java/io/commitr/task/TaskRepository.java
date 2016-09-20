@@ -1,6 +1,7 @@
 package io.commitr.task;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 
 import java.util.UUID;
 
@@ -10,5 +11,8 @@ import java.util.UUID;
 
 public interface TaskRepository extends JpaRepository<Task, UUID>{
 
-    TaskDTO findByUuid(UUID uuid);
+    Task findByUuid(UUID uuid);
+
+    @Modifying
+    Long deleteByUuid(UUID uuid);
 }
