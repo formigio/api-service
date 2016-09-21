@@ -72,4 +72,13 @@ public class GoalIntegrationTest {
 
         assertThat(goal.getUuid()).isEqualByComparingTo(response.getUuid());
     }
+
+    @Test
+    public void getNonExistentGoal() throws Exception {
+
+        ResponseEntity<Goal> response = this.restTemplate.getForEntity(format("/goal/%s", DTOUtils.NON_VALID_UUID_STRING),Goal.class);
+
+        assertThat(response.getStatusCodeValue()).isEqualTo(404);
+
+    }
 }

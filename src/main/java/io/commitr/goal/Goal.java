@@ -9,8 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @Entity
@@ -27,9 +26,8 @@ public class Goal {
 	@Length(max = 255)
 	private String title;
 
-	@OneToMany(mappedBy = "goal", cascade = CascadeType.ALL)
-	@Null
-	private Set<Task> tasks;
+	@OneToMany(mappedBy = "goal")
+	private Collection<Task> tasks = new ArrayList<>();
 
 	@PrePersist
 	void prePersist() {

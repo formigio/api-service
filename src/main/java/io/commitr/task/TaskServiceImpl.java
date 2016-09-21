@@ -1,5 +1,6 @@
 package io.commitr.task;
 
+import io.commitr.controller.ResourceNotFoundException;
 import io.commitr.goal.Goal;
 import io.commitr.goal.GoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO getTask(UUID uuid) {
         Task t = taskRepository.findByUuid(uuid);
+
+        if (null==t) {
+            throw new ResourceNotFoundException();
+        }
 
         TaskDTO dto = new TaskDTO();
 

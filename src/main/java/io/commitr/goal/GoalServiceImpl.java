@@ -1,5 +1,6 @@
 package io.commitr.goal;
 
+import io.commitr.controller.ResourceNotFoundException;
 import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public Goal getGoal(UUID uuid) {
-        return repository.findByUuid(uuid);
+        Goal g = repository.findByUuid(uuid);
+
+        if (null==g) {
+            throw new ResourceNotFoundException();
+        }
+
+        return g;
     }
 }

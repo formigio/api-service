@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -99,6 +100,31 @@ public class TaskRepositoryTest {
         assertThat(task.getUuid()).isNotNull();
 
         assertThat(repository.deleteByUuid(task.getUuid())).isGreaterThan(0);
+
+    }
+
+    @Test
+    public void findTaskByGoal() throws Exception {
+        Task taskSaved = repository.save(
+                DTOUtils.createTask(null, "Test Task",
+                        goal,
+                        false));
+
+        Task task = repository.findByGoal(goal);
+
+        assertThat(task.getGoal()).isEqualTo(goal);
+
+    }
+
+    @Test
+    public void getTasksFromGoal() throws Exception {
+
+        repository.save(DTOUtils.createTask(null, "Test Task 1", goal, false));
+        repository.save(DTOUtils.createTask(null, "Test Task 2", goal, false));
+
+        Collection<Task> tasks = goal.getTasks();
+
+        assertThat(tasks.size()).isEqualTo(2);
 
     }
 }

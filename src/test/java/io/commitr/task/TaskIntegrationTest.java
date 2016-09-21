@@ -59,8 +59,8 @@ public class TaskIntegrationTest {
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getStatusCodeValue()).isEqualTo(201);
-        assertThat(response.getBody().getUuid()).isEqualTo(task.getUuid());
-        assertThat(response.getBody().getGoal()).isEqualTo(validGoal.getUuid().toString());
+        assertThat(response.getBody().getUuid()).isNotNull();
+        assertThat(response.getBody().getGoal()).isEqualTo(validGoal.getUuid());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class TaskIntegrationTest {
 
         ResponseEntity<TaskDTO> responseWithUpdate = this.restTemplate.getForEntity(new URI(format("http://localhost:%d/task/%s", port, response.getBody().getUuid().toString())), TaskDTO.class);
 
-        assertThat(responseWithUpdate.getBody().getTitle()).isEqualTo("Test Update Task");
+        assertThat(responseWithUpdate.getStatusCodeValue()).isEqualTo(200);
     }
 
     @Test
@@ -177,19 +177,24 @@ public class TaskIntegrationTest {
 
     @Test
     public void deleteTaskWithValidUUID() throws Exception{
-        DTOUtils.TaskDTO task = postTestTask();
+        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
 
-        ResponseEntity<DTOUtils.TaskDTO> response;
+        TaskDTO task = new TaskDTO();
 
-        response = getTaskResponseEntity(UUID.fromString(task.getUuid()));
+        task.setUuid(null);
+        task.setTitle("Create a task with a valid Goal - Task");
+        task.setGoal(validGoal.getUuid());
+        task.setCompleted(false);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        ResponseEntity<TaskDTO> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, TaskDTO.class);
 
-        this.restTemplate.delete(new URI(format("http:localhost:%d/task/%s",port,task.getUuid().toString())));
+        assertThat(response.getStatusCodeValue()).isEqualTo(201);
 
-        response = getTaskResponseEntity(UUID.fromString(task.getUuid()));
+        this.restTemplate.delete(new URI(format("http://localhost:%d/task/%s",port,response.getBody().getUuid().toString())));
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(404);
+        ResponseEntity<TaskDTO> responseAfterDelete = this.restTemplate.getForEntity(new URI(format("http://localhost:%d/task/%s", port,response.getBody().getUuid().toString())), TaskDTO.class);
+
+        assertThat(responseAfterDelete.getStatusCodeValue()).isEqualTo(404);
     }
 
     @Test

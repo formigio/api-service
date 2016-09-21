@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.commitr.goal.Goal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.Parent;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -32,7 +33,11 @@ public class Task {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "goal_uuid", nullable = false, updatable = false)
+    @JoinColumn(
+            name = "id",
+            updatable = false, insertable = false
+    )
+    @NotNull
     private Goal goal;
 
     private Boolean completed;
