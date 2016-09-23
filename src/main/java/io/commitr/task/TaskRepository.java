@@ -4,6 +4,7 @@ import io.commitr.goal.Goal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,5 +18,5 @@ public interface TaskRepository extends JpaRepository<Task, UUID>{
     @Modifying
     Long deleteByUuid(UUID uuid);
 
-    Task findByGoal(UUID goal);
+    List<Task> findByGoal(UUID goal);
 }
