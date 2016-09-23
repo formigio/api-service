@@ -26,7 +26,7 @@ public class TaskController {
 
         responseDTO.setUuid(t.getUuid());
         responseDTO.setTitle(t.getTitle());
-        responseDTO.setGoal(t.getGoal().getUuid());
+        responseDTO.setGoal(t.getGoal());
         responseDTO.setCompleted(t.getCompleted());
 
         return responseDTO;

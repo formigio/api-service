@@ -27,7 +27,7 @@ public class DTOUtils {
         return goal;
     }
 
-    public static Task createTask(UUID uuid, String title, Goal goal, Boolean completed) {
+    public static Task createTask(UUID uuid, String title, UUID goal, Boolean completed) {
         Task task = new Task();
         task.setUuid(uuid);
         task.setTitle(title);

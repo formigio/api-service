@@ -32,13 +32,8 @@ public class Task {
     @Length(max = 255)
     private String title;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "id",
-            updatable = false, insertable = false
-    )
     @NotNull
-    private Goal goal;
+    private UUID goal;
 
     private Boolean completed;
 

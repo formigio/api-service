@@ -28,7 +28,7 @@ public class TaskServiceImpl implements TaskService {
 
         t.setUuid(task.getUuid());
         t.setTitle(task.getTitle());
-        t.setGoal(goalRepository.findByUuid(task.getGoal()));
+        t.setGoal(goalRepository.findByUuid(task.getGoal()).getUuid());
         t.setCompleted(task.getCompleted());
 
         taskRepository.save(t);
@@ -59,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
 
         dto.setUuid(t.getUuid());
         dto.setTitle(t.getTitle());
-        dto.setGoal(t.getGoal().getUuid());
+        dto.setGoal(t.getGoal());
         dto.setCompleted(t.getCompleted());
 
         return dto;

@@ -1,5 +1,6 @@
 package io.commitr.task;
 
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import io.commitr.goal.Goal;
 import io.commitr.goal.GoalRepository;
 import io.commitr.util.DTOUtils;
@@ -24,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class TaskRepositoryTest {
 
-    private Goal goal;
+    private UUID goal;
 
     @Autowired
     TaskRepository repository;
@@ -34,7 +35,7 @@ public class TaskRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        goal = goalRepository.save(DTOUtils.createGoal(null, "Test Task Goal"));
+        goal = goalRepository.save(DTOUtils.createGoal(null, "Test Task Goal")).getUuid();
 
     }
 
@@ -51,7 +52,7 @@ public class TaskRepositoryTest {
         assertThat(task.getUuid().toString())
                 .containsPattern("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
         assertThat(task.getTitle()).isEqualTo("Test Task");
-        assertThat(task.getGoal().getUuid()).isEqualByComparingTo(goal.getUuid());
+        assertThat(task.getGoal()).isEqualByComparingTo(goal);
     }
 
     @Test
@@ -116,15 +117,4 @@ public class TaskRepositoryTest {
 
     }
 
-    @Test
-    public void getTasksFromGoal() throws Exception {
-
-        repository.save(DTOUtils.createTask(null, "Test Task 1", goal, false));
-        repository.save(DTOUtils.createTask(null, "Test Task 2", goal, false));
-
-        Collection<Task> tasks = goal.getTasks();
-
-        assertThat(tasks.size()).isEqualTo(2);
-
-    }
 }

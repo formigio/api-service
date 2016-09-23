@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
@@ -51,7 +53,7 @@ public class TaskServiceTest {
         t.setId(null);
         t.setUuid(DTOUtils.VALID_UUID);
         t.setTitle("Mocked Task");
-        t.setGoal(goalMock);
+        t.setGoal(DTOUtils.VALID_UUID);
         t.setCompleted(false);
 
         given(this.taskRepository.save(t))
@@ -66,7 +68,7 @@ public class TaskServiceTest {
         when(taskMock.getId()).thenReturn(1L);
         when(taskMock.getUuid()).thenReturn(DTOUtils.VALID_UUID);
         when(taskMock.getTitle()).thenReturn("Mocked Task");
-        when(taskMock.getGoal()).thenReturn(goalMock);
+        when(taskMock.getGoal()).thenReturn(DTOUtils.VALID_UUID);
         when(taskMock.getCompleted()).thenReturn(false);
 
         when(dtoMock.getUuid()).thenReturn(DTOUtils.VALID_UUID);
@@ -88,7 +90,7 @@ public class TaskServiceTest {
         assertThat(task.getUuid()).isNotNull();
         assertThat(task.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(task.getTitle()).isEqualTo("Mocked Task");
-        assertThat(task.getGoal().getUuid()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(task.getGoal()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(task.getCompleted()).isFalse();
     }
 
@@ -113,7 +115,7 @@ public class TaskServiceTest {
         assertThat(task.getUuid()).isNotNull();
         assertThat(task.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(task.getTitle()).isEqualTo("Mocked Task");
-        assertThat(task.getGoal().getUuid()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(task.getGoal()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(task.getCompleted()).isFalse();
     }
 

@@ -30,7 +30,7 @@ public class TaskTest {
         task.setId(1L);
         task.setUuid(DTOUtils.VALID_UUID);
         task.setTitle("Task Test");
-        task.setGoal(DTOUtils.createGoal(DTOUtils.VALID_UUID, "Goal Task Test"));
+        task.setGoal(DTOUtils.VALID_UUID);
         task.setCompleted(true);
 
         JsonContent<Task> taskJson = this.json.write(task);
@@ -44,7 +44,7 @@ public class TaskTest {
                 .hasJsonPathStringValue("$.title");
         assertThat(taskJson)
                 .hasJsonPathValue("$.goal")
-                .extractingJsonPathStringValue("$.goal.guid").isEqualTo(DTOUtils.VALID_UUID_STRING);
+                .extractingJsonPathStringValue("$.goal").isEqualTo(DTOUtils.VALID_UUID_STRING);
         assertThat(taskJson)
                 .hasJsonPathBooleanValue("$.completed")
                 .extractingJsonPathBooleanValue("$.completed").isTrue();
@@ -52,16 +52,12 @@ public class TaskTest {
 
     @Test
     public void testDeserialize() throws Exception {
-        String content = "{\n" +
+        String content = "{" +
                 "    \"id\": 1," +
-                "    \"title\": \"Task Test\",\n" +
-                "    \"goal\": {\n" +
-                "        \"title\": \"Goal Task Test\",\n" +
-                "        \"tasks\": null,\n" +
-                "        \"guid\": \"ab13ca05-6706-45e1-b2aa-2394fc09d3a0\"\n" +
-                "    },\n" +
-                "    \"completed\": true,\n" +
-                "    \"guid\": \"ab13ca05-6706-45e1-b2aa-2394fc09d3a0\"\n" +
+                "    \"title\": \"Task Test\"," +
+                "    \"goal\": \"ab13ca05-6706-45e1-b2aa-2394fc09d3a0\"," +
+                "    \"completed\": true," +
+                "    \"guid\": \"ab13ca05-6706-45e1-b2aa-2394fc09d3a0\"" +
                 "}";
 
         Task task = this.json.parseObject(content);
@@ -69,7 +65,7 @@ public class TaskTest {
         assertThat(task.getId()).isNull();
         assertThat(task.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(task.getTitle()).isEqualTo("Task Test");
-        assertThat(task.getGoal().getUuid()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(task.getGoal()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(task.getCompleted()).isTrue();
     }
 

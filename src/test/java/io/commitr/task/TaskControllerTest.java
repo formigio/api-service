@@ -55,13 +55,13 @@ public class TaskControllerTest {
         given(service.saveTask(dtoNotCompleted))
                 .willReturn(DTOUtils.createTask(DTOUtils.VALID_UUID,
                         "Test Task",
-                        DTOUtils.createGoal(DTOUtils.VALID_UUID, "Goal Test"),
+                        DTOUtils.VALID_UUID,
                         false));
 
         given(service.saveTask(dtoCompleted))
                 .willReturn(DTOUtils.createTask(DTOUtils.VALID_UUID,
                         "Test Task",
-                        DTOUtils.createGoal(DTOUtils.VALID_UUID, "Goal Test"),
+                        DTOUtils.VALID_UUID,
                         true));
 
 
