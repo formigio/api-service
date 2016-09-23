@@ -26,17 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(TaskController.class)
 public class TaskControllerTest {
 
-    TaskDTO dtoNotCompleted = new TaskDTO();
-    TaskDTO dtoCompleted = new TaskDTO();
+    Task dtoNotCompleted = new Task();
+    Task dtoCompleted = new Task();
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
     private TaskService service;
-
-    @Mock
-    TaskDTO dto;
 
     @Before
     public void setUp() throws Exception {
@@ -72,7 +69,7 @@ public class TaskControllerTest {
     @Test
     public void createTask() throws Exception {
 
-        TaskDTO taskDTO = dtoNotCompleted;
+        Task taskDTO = dtoNotCompleted;
 
         this.mvc.perform(post("/task")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -98,7 +95,7 @@ public class TaskControllerTest {
     @Test
     public void updateTask() throws Exception {
 
-        TaskDTO taskDTO = dtoNotCompleted;
+        Task taskDTO = dtoNotCompleted;
 
         this.mvc.perform(put("/task")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -109,7 +106,7 @@ public class TaskControllerTest {
     @Test
     public void completeTask() throws Exception {
 
-        TaskDTO taskDTO = dtoNotCompleted;
+        Task taskDTO = dtoNotCompleted;
 
         this.mvc.perform(put("/task")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

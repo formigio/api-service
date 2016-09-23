@@ -15,8 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
@@ -32,7 +30,7 @@ public class TaskServiceTest {
     Task taskMock;
 
     @Mock
-    TaskDTO dtoMock;
+    Task badTaskMock;
 
     @Mock
     Goal goalMock;
@@ -48,19 +46,12 @@ public class TaskServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        Task t = new Task();
 
-        t.setId(null);
-        t.setUuid(DTOUtils.VALID_UUID);
-        t.setTitle("Mocked Task");
-        t.setGoal(DTOUtils.VALID_UUID);
-        t.setCompleted(false);
+        given(this.taskRepository.findByUuid(DTOUtils.NON_VALID_UUID))
+                .willReturn(null);
 
-        given(this.taskRepository.save(t))
+        given(this.taskRepository.save(taskMock))
                 .willReturn(taskMock);
-
-        given(this.goalRepository.findByUuid(DTOUtils.VALID_UUID))
-                .willReturn(goalMock);
 
         given(this.taskRepository.findByUuid(DTOUtils.VALID_UUID))
                 .willReturn(taskMock);
@@ -71,21 +62,16 @@ public class TaskServiceTest {
         when(taskMock.getGoal()).thenReturn(DTOUtils.VALID_UUID);
         when(taskMock.getCompleted()).thenReturn(false);
 
-        when(dtoMock.getUuid()).thenReturn(DTOUtils.VALID_UUID);
-        when(dtoMock.getTitle()).thenReturn("Mocked Task");
-        when(dtoMock.getGoal()).thenReturn(DTOUtils.VALID_UUID);
-        when(dtoMock.getCompleted()).thenReturn(false);
-
-        when(goalMock.getId()).thenReturn(1L);
-        when(goalMock.getUuid()).thenReturn(DTOUtils.VALID_UUID);
-        when(goalMock.getTitle()).thenReturn("Mocked Goal");
-
+        when(badTaskMock.getUuid()).thenReturn(DTOUtils.NON_VALID_UUID);
+        when(badTaskMock.getTitle()).thenReturn("Mocked Bad Task");
+        when(badTaskMock.getGoal()).thenReturn(DTOUtils.NON_VALID_UUID);
+        when(badTaskMock.getCompleted()).thenReturn(false);
     }
 
     @Test
     public void createTask() throws Exception {
 
-        Task task = taskService.saveTask(dtoMock);
+        Task task = taskService.saveTask(badTaskMock);
 
         assertThat(task.getUuid()).isNotNull();
         assertThat(task.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
@@ -97,7 +83,7 @@ public class TaskServiceTest {
     @Test
     public void getTask() throws Exception {
 
-        TaskDTO task = taskService.getTask(DTOUtils.VALID_UUID);
+        Task task = taskService.getTask(DTOUtils.VALID_UUID);
 
         assertThat(task.getUuid()).isNotNull();
         assertThat(task.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
@@ -108,15 +94,19 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void updateTask() throws Exception {
+    public void getNonExistentTask() throws Exception {
+        Task task = taskService.getTask(DTOUtils.NON_VALID_UUID);
 
-        Task task = taskService.saveTask(dtoMock);
+        assertThat(task).isNull();
 
-        assertThat(task.getUuid()).isNotNull();
-        assertThat(task.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
-        assertThat(task.getTitle()).isEqualTo("Mocked Task");
-        assertThat(task.getGoal()).isEqualTo(DTOUtils.VALID_UUID);
-        assertThat(task.getCompleted()).isFalse();
+    }
+
+    @Test
+    public void updateNonExistentTask() throws Exception {
+
+        Task task = taskService.saveTask(badTaskMock);
+
+        assertThat(task).isNull();
     }
 
     @Test

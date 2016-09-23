@@ -1,22 +1,14 @@
 package io.commitr.task;
 
-import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
-import io.commitr.goal.Goal;
-import io.commitr.goal.GoalRepository;
 import io.commitr.util.DTOUtils;
-import lombok.Data;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -109,7 +101,7 @@ public class TaskRepositoryTest {
                         DTOUtils.VALID_UUID,
                         false));
 
-        List<Task> tasks = repository.findByGoal(DTOUtils.VALID_UUID);
+        Set<Task> tasks = repository.findByGoal(DTOUtils.VALID_UUID);
 
         assertThat(tasks.size()).isEqualTo(2);
 

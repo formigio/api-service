@@ -1,5 +1,6 @@
 package io.commitr.task;
 
+import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,28 +19,31 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskDTO createTask(@RequestBody TaskDTO dto) {
+    public Task createTask(@RequestBody Task dto) {
 
         Task t = taskService.saveTask(dto);
 
-        TaskDTO responseDTO = new TaskDTO();
-
-        responseDTO.setUuid(t.getUuid());
-        responseDTO.setTitle(t.getTitle());
-        responseDTO.setGoal(t.getGoal());
-        responseDTO.setCompleted(t.getCompleted());
-
-        return responseDTO;
+        return t;
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
-    public TaskDTO getTask(@PathVariable UUID uuid) {
-        return taskService.getTask(uuid);
+    public Task getTask(@PathVariable UUID uuid) {
+        Task t = taskService.getTask(uuid);
+
+        if (null==t) {
+            throw new ResourceNotFoundException();
+        }
+
+        return t;
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void updateTask(@RequestBody TaskDTO dto) {
-        taskService.updateTask(dto);
+    public void updateTask(@RequestBody Task dto) {
+        Task t = taskService.updateTask(dto);
+
+        if (null==t) {
+            throw new ResourceNotFoundException();
+        }
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)

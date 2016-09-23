@@ -1,5 +1,6 @@
 package io.commitr.task;
 
+import ch.qos.logback.core.joran.conditional.ThenAction;
 import io.commitr.controller.ResourceNotFoundException;
 import io.commitr.goal.Goal;
 import io.commitr.goal.GoalRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -23,46 +25,45 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public Task saveTask(TaskDTO task) {
-        Task t = new Task();
+    public Task saveTask(Task task) {
 
-        t.setUuid(task.getUuid());
-        t.setTitle(task.getTitle());
-        t.setGoal(goalRepository.findByUuid(task.getGoal()).getUuid());
-        t.setCompleted(task.getCompleted());
+        taskRepository.save(task);
 
-        taskRepository.save(t);
-
-        return t;
+        return task;
     }
 
     @Override
     @Transactional
-    public void updateTask(TaskDTO dto) {
+    public Task updateTask(Task dto) {
         Task t = taskRepository.findByUuid(dto.getUuid());
+
+        if(null==t) {
+            return t;
+        }
 
         t.setTitle(dto.getTitle());
         t.setCompleted(dto.getCompleted());
 
         taskRepository.saveAndFlush(t);
+
+        return t;
     }
 
     @Override
-    public TaskDTO getTask(UUID uuid) {
-        Task t = taskRepository.findByUuid(uuid);
+    public Task getTask(UUID uuid) {
+        return taskRepository.findByUuid(uuid);
+    }
 
-        if (null==t) {
-            throw new ResourceNotFoundException();
+    @Override
+    public Set<Task> getTaskByGoal(UUID uuid) {
+
+        Goal g = goalRepository.findByUuid(uuid);
+
+        if (null==g) {
+            return null;
         }
 
-        TaskDTO dto = new TaskDTO();
-
-        dto.setUuid(t.getUuid());
-        dto.setTitle(t.getTitle());
-        dto.setGoal(t.getGoal());
-        dto.setCompleted(t.getCompleted());
-
-        return dto;
+        return taskRepository.findByGoal(uuid);
     }
 
     @Override
