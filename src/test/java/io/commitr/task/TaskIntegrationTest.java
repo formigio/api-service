@@ -1,5 +1,6 @@
 package io.commitr.task;
 
+import com.sun.xml.internal.ws.server.sei.SEIInvokerTube;
 import io.commitr.goal.Goal;
 import io.commitr.util.DTOUtils;
 import io.commitr.util.JsonUtils;
@@ -13,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
+import java.util.Set;
 import java.util.UUID;
 
 import static java.lang.String.format;
@@ -64,31 +66,12 @@ public class TaskIntegrationTest {
     }
 
     @Test
-    public void getGoalWithValidTask() throws Exception{
-        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
-
-        Task task = new Task();
-
-        task.setUuid(null);
-        task.setTitle("Create a task with a valid Goal - Task");
-        task.setGoal(validGoal.getUuid());
-        task.setCompleted(false);
-
-        ResponseEntity<Task> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
-
-        Goal goal = this.restTemplate.getForObject(new URI(format("http://localhost:%d/goal/%s", port,
-                response.getBody().getGoal().toString())), Goal.class);
-
-        assertThat(goal.getTasks().contains(response)).isTrue();
-    }
-
-    @Test
     public void createTaskWithNonValidGoal() {
-        Task task = DTOUtils.createTask(null, "Test Task - Invalid Goal",DTOUtils.NON_VALID_UUID, false);
+        Task task = DTOUtils.createTask(null, "Test Task",DTOUtils.NON_VALID_UUID, false);
 
         ResponseEntity<Task> response = postTaskWithResponseEntity(task);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(400);
+        assertThat(response.getStatusCodeValue()).isEqualTo(404);
         //TODO: Need to also check that a valid error message is coming back with the response
     }
 

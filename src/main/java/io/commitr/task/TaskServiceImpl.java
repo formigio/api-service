@@ -26,6 +26,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public Task saveTask(Task task) {
+        Goal g = goalRepository.findByUuid(task.getGoal());
+
+        if (null==g) {
+            return null;
+        }
 
         taskRepository.save(task);
 

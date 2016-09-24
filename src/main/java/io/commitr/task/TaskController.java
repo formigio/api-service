@@ -23,6 +23,10 @@ public class TaskController {
 
         Task t = taskService.saveTask(dto);
 
+        if (null==t) {
+            throw new ResourceNotFoundException();
+        }
+
         return t;
     }
 
