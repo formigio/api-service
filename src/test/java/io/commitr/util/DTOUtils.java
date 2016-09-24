@@ -2,7 +2,6 @@ package io.commitr.util;
 
 import io.commitr.goal.Goal;
 import io.commitr.task.Task;
-import io.commitr.task.TaskDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

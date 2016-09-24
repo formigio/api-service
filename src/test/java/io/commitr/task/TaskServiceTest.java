@@ -71,7 +71,7 @@ public class TaskServiceTest {
     @Test
     public void createTask() throws Exception {
 
-        Task task = taskService.saveTask(badTaskMock);
+        Task task = taskService.saveTask(taskMock);
 
         assertThat(task.getUuid()).isNotNull();
         assertThat(task.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
@@ -104,7 +104,7 @@ public class TaskServiceTest {
     @Test
     public void updateNonExistentTask() throws Exception {
 
-        Task task = taskService.saveTask(badTaskMock);
+        Task task = taskService.updateTask(badTaskMock);
 
         assertThat(task).isNull();
     }
