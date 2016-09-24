@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,33 +48,30 @@ public class TaskControllerTest {
         dtoCompleted.setUuid(DTOUtils.VALID_UUID);
         dtoCompleted.setTitle("Test Task");
         dtoCompleted.setGoal(DTOUtils.VALID_UUID);
-        dtoCompleted.setCompleted(false);
+        dtoCompleted.setCompleted(true);
 
         given(service.saveTask(dtoNotCompleted))
-                .willReturn(DTOUtils.createTask(DTOUtils.VALID_UUID,
-                        "Test Task",
-                        DTOUtils.VALID_UUID,
-                        false));
+                .willReturn(dtoNotCompleted);
 
         given(service.saveTask(dtoCompleted))
-                .willReturn(DTOUtils.createTask(DTOUtils.VALID_UUID,
-                        "Test Task",
-                        DTOUtils.VALID_UUID,
-                        true));
+                .willReturn(dtoCompleted);
 
+        given(service.updateTask(dtoNotCompleted))
+                .willReturn(dtoNotCompleted);
+
+        given(service.updateTask(dtoCompleted))
+                .willReturn(dtoCompleted);
 
         given(this.service.getTask(DTOUtils.VALID_UUID))
-                .willReturn(dtoNotCompleted);
+                .willReturn(dtoCompleted);
     }
 
     @Test
     public void createTask() throws Exception {
 
-        Task taskDTO = dtoNotCompleted;
-
         this.mvc.perform(post("/task")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(JsonUtils.convertObject(taskDTO)))
+                .content(JsonUtils.convertObject(dtoNotCompleted)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
