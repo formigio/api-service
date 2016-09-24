@@ -11,6 +11,6 @@ public interface TaskService {
     public Task saveTask(Task dto);
     public Task updateTask(Task dto);
     public Task getTask(UUID uuid);
-    public Set<Task> getTaskByGoal(UUID uuid);
+    public List<Task> getTaskByGoal(UUID uuid);
     public void delete(UUID uuid);
 }

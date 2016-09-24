@@ -41,7 +41,7 @@ public class GoalControllerTest {
         this.mvc.perform(post("/goal")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JsonUtils.convertObject(goal)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.title",containsString("Goal Test")));

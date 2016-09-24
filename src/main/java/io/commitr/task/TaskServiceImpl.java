@@ -1,14 +1,12 @@
 package io.commitr.task;
 
-import ch.qos.logback.core.joran.conditional.ThenAction;
-import io.commitr.controller.ResourceNotFoundException;
 import io.commitr.goal.Goal;
 import io.commitr.goal.GoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -60,7 +58,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Set<Task> getTaskByGoal(UUID uuid) {
+    public List<Task> getTaskByGoal(UUID uuid) {
 
         Goal g = goalRepository.findByUuid(uuid);
 

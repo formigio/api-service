@@ -26,9 +26,6 @@ public class Goal {
 	@Length(max = 255)
 	private String title;
 
-	@OneToMany(mappedBy = "goal")
-	private Collection<Task> tasks = new ArrayList<>();
-
 	@PrePersist
 	void prePersist() {
 		if (null==this.uuid) {

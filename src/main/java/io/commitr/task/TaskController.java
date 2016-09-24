@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -39,6 +40,17 @@ public class TaskController {
         }
 
         return t;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Task> getTasksByGoal(@RequestParam(value = "goal") UUID uuid) {
+        List<Task> tasks = taskService.getTaskByGoal(uuid);
+
+        if(null==tasks) {
+            throw new ResourceNotFoundException();
+        }
+
+        return tasks;
     }
 
     @RequestMapping(method = RequestMethod.PUT)

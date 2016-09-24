@@ -188,6 +188,32 @@ public class TaskIntegrationTest {
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
     }
 
+
+    @Test
+    public void getTasksByValidGoal() throws Exception{
+        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+
+        Task task = new Task();
+
+        task.setUuid(null);
+        task.setTitle("Create a task with a valid Goal - Task 1");
+        task.setGoal(validGoal.getUuid());
+        task.setCompleted(true);
+
+        this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
+
+        task.setUuid(null);
+        task.setTitle("Create a task with a valid Goal - Task 2");
+
+        this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
+
+        ResponseEntity<Task[]> response = this.restTemplate.getForEntity(format("/task?goal=%s", validGoal.getUuid().toString()), Task[].class);
+
+        Task[] tasks = response.getBody();
+
+        assertThat(tasks.length).isEqualTo(2);
+    }
+
     private Task postTestTask() {
         Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
 

@@ -56,6 +56,9 @@ public class TaskServiceTest {
         given(this.taskRepository.findByUuid(DTOUtils.VALID_UUID))
                 .willReturn(taskMock);
 
+        given(this.goalRepository.findByUuid(DTOUtils.VALID_UUID))
+                .willReturn(goalMock);
+
         when(taskMock.getId()).thenReturn(1L);
         when(taskMock.getUuid()).thenReturn(DTOUtils.VALID_UUID);
         when(taskMock.getTitle()).thenReturn("Mocked Task");
@@ -66,6 +69,7 @@ public class TaskServiceTest {
         when(badTaskMock.getTitle()).thenReturn("Mocked Bad Task");
         when(badTaskMock.getGoal()).thenReturn(DTOUtils.NON_VALID_UUID);
         when(badTaskMock.getCompleted()).thenReturn(false);
+
     }
 
     @Test

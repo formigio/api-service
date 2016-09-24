@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
-import java.util.Set;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -101,7 +101,7 @@ public class TaskRepositoryTest {
                         DTOUtils.VALID_UUID,
                         false));
 
-        Set<Task> tasks = repository.findByGoal(DTOUtils.VALID_UUID);
+        List<Task> tasks = repository.findByGoal(DTOUtils.VALID_UUID);
 
         assertThat(tasks.size()).isEqualTo(2);
 
