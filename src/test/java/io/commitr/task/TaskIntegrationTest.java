@@ -1,6 +1,5 @@
 package io.commitr.task;
 
-import com.sun.xml.internal.ws.server.sei.SEIInvokerTube;
 import io.commitr.goal.Goal;
 import io.commitr.util.DTOUtils;
 import io.commitr.util.JsonUtils;
@@ -14,7 +13,6 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
-import java.util.Set;
 import java.util.UUID;
 
 import static java.lang.String.format;

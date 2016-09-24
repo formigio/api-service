@@ -13,6 +13,8 @@ Currently using HSQLDB as the database engine.
 ##Building
 `docker run -v [path/to/repo]:/var/service -w="/var/service" [openjdk image] /var/service/gradlew clean build`
 
+optionally you can build without running tests adding `-x test` to the run command
+
 ##Running
 `java -jar -Dspring.profiles.active=prod commitr-service-0.0.1-SNAPSHOT.jar`
 
