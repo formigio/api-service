@@ -1,9 +1,8 @@
 package io.commitr.util;
 
 import io.commitr.goal.Goal;
+import io.commitr.invite.Invite;
 import io.commitr.task.Task;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.util.UUID;
 
@@ -36,41 +35,12 @@ public class DTOUtils {
         return task;
     }
 
-    @Data
-    public static class GoalDTOBuilder {
-        private String uuid;
-        private String title;
+    public static Invite createInvite(UUID uuid, UUID goal) {
+        Invite invite = new Invite();
 
-        public static GoalDTO of(String uuid, String title) {
-            return new GoalDTO(uuid, title);
-        }
-    }
+        invite.setUuid(uuid);
+        invite.setGoal(goal);
 
-    @Data
-    @AllArgsConstructor
-    public static class GoalDTO {
-        private String uuid;
-        private String title;
-    }
-
-    @Data
-    public static class TaskDTOBuilder {
-        private String uuid;
-        private String title;
-        private String goal;
-        private Boolean completed;
-
-        public static TaskDTO of(String uuid, String title, String goal, Boolean completed) {
-            return new TaskDTO(uuid, title, goal, completed);
-        }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class TaskDTO {
-        private String uuid;
-        private String title;
-        private String goal;
-        private Boolean completed;
+        return invite;
     }
 }
