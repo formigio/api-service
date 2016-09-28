@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -28,4 +29,12 @@ public class Invite {
 
     @NotNull
     private UUID goal;
+
+    @PrePersist
+    void prePersist() {
+        if (null==this.uuid) {
+            this.uuid = UUID.randomUUID();
+        }
+    }
+
 }

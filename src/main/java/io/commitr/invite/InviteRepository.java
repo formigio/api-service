@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface InviteRepository extends JpaRepository<Invite, Long>{
 
     Invite findByUuid(UUID uuid);
+
+    Invite findByGoal(UUID uuid);
 }

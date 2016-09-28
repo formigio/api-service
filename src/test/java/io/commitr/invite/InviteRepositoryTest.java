@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 /**
  * Created by peter on 9/24/16.
@@ -43,19 +44,51 @@ public class InviteRepositoryTest {
 
         repository.save(i);
 
+        Invite invite = repository.findByUuid(i.getUuid());
 
+        assertThat(invite.getUuid()).isEqualTo(i.getUuid());
 
     }
 
     @Test
     public void testFindInviteByGoal() throws Exception {
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
 
+        Invite i = DTOUtils.createInvite(null, g.getUuid());
+
+        repository.save(i);
+
+        Invite invite = repository.findByGoal(g.getUuid());
+
+        assertThat(invite.getGoal()).isEqualTo(g.getUuid());
 
     }
 
     @Test
-    public void testDeleteSave() throws Exception {
+    public void testFindGoalByInvite() throws Exception {
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
 
+        Invite i = DTOUtils.createInvite(null, g.getUuid());
 
+        repository.save(i);
+
+        Invite invite = repository.findByUuid(i.getUuid());
+
+        Goal goal = goalRepository.findByUuid(invite.getGoal());
+
+        assertThat(goal).isNotNull();
+        assertThat(goal.getTitle()).isEqualTo("Test Goal");
+
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+
+        Invite i = DTOUtils.createInvite(null, g.getUuid());
+
+        repository.saveAndFlush(i);
+
+        repository.delete(i);
     }
 }

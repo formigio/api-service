@@ -3,6 +3,8 @@ package io.commitr.util;
 import io.commitr.goal.Goal;
 import io.commitr.invite.Invite;
 import io.commitr.task.Task;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.UUID;
 
@@ -33,6 +35,15 @@ public class DTOUtils {
         task.setCompleted(completed);
 
         return task;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class TaskDTO {
+        private String uuid;
+        private String title;
+        private String goal;
+        private Boolean completed;
     }
 
     public static Invite createInvite(UUID uuid, UUID goal) {

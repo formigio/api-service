@@ -76,7 +76,7 @@ public class TaskIntegrationTest {
     @Test
     public void createTaskWithInvalidUUIDFormat() throws Exception{
 
-        DTOUtils.TaskDTO taskDTO = DTOUtils.TaskDTOBuilder.of(
+        DTOUtils.TaskDTO taskDTO = new DTOUtils.TaskDTO(
                 "invalid-uuid-format",
                 "Bad UUID Task Update Test",
                 DTOUtils.VALID_UUID_STRING,
@@ -119,7 +119,7 @@ public class TaskIntegrationTest {
     public void updateTaskWithNonValidUUID() throws Exception{
 
 
-        DTOUtils.TaskDTO taskDTO = DTOUtils.TaskDTOBuilder.of(
+        DTOUtils.TaskDTO taskDTO = new DTOUtils.TaskDTO(
                 "invalid-uuid-format",
                 "Bad UUID Task Update Test",
                 DTOUtils.VALID_UUID_STRING,
@@ -138,7 +138,7 @@ public class TaskIntegrationTest {
 
     @Test
     public void updateTaskWithNonValidGoal() throws Exception{
-        DTOUtils.TaskDTO taskDTO = DTOUtils.TaskDTOBuilder.of(
+        DTOUtils.TaskDTO taskDTO = new DTOUtils.TaskDTO(
                 "invalid-uuid-format",
                 "Bad UUID Task Update Test",
                 DTOUtils.VALID_UUID_STRING,
