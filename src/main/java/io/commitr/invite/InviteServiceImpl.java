@@ -3,12 +3,14 @@ package io.commitr.invite;
 import io.commitr.goal.Goal;
 import io.commitr.goal.GoalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 /**
  * Created by Peter Douglas on 9/28/2016.
  */
+@Service
 public class InviteServiceImpl implements InviteService {
 
     @Autowired
