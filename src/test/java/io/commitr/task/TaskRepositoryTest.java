@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,9 +20,6 @@ public class TaskRepositoryTest {
 
     @Autowired
     TaskRepository repository;
-
-    @Autowired
-    EntityManager em;
 
     @Test
     public void saveTask() throws Exception {
