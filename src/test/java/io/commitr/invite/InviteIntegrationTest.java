@@ -11,12 +11,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.net.URI;
-
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
 
 /**
  * Created by Peter Douglas on 9/29/2016.
@@ -26,10 +22,10 @@ import static org.assertj.core.api.Assertions.in;
 public class InviteIntegrationTest {
 
     @Autowired
-    TestRestTemplate restTemplate;
+    private TestRestTemplate restTemplate;
 
     @LocalServerPort
-    int port;
+    private int port;
 
     @Test
     public void createInviteWithValidGoal() throws Exception {
@@ -68,14 +64,11 @@ public class InviteIntegrationTest {
 
         ResponseEntity<Invite> inviteResponse = restTemplate.postForEntity("/invite", request, Invite.class);
 
-        assertThat(inviteResponse.getStatusCodeValue()).isEqualTo(404);
+        assertThat(inviteResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
     public void createInviteWithInvalidFormat() throws Exception {
-        Goal goal = DTOUtils.createGoal(null, "first goal");
-        Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
-
         String content = "{" +
                 "    \"guid\":null," +
                 "    \"goal\":\"invalid-guid-format\"" +
@@ -88,36 +81,42 @@ public class InviteIntegrationTest {
 
         ResponseEntity<Invite> inviteResponse = restTemplate.postForEntity("/invite", request, Invite.class);
 
-        assertThat(inviteResponse.getStatusCodeValue()).isEqualTo(400);
+        assertThat(inviteResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
     public void getInviteByUuid() throws Exception {
+        Goal response = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "first goal"), Goal.class);
 
-        this.restTemplate.postForObject("/invite", DTOUtils.createInvite(DTOUtils.VALID_UUID, DTOUtils.VALID_UUID), Invite.class);
+        this.restTemplate.postForObject("/invite",
+                DTOUtils.createInvite(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
 
-        ResponseEntity<Invite> invite = this.restTemplate.getForEntity(format("/invite/%s", DTOUtils.VALID_UUID_STRING), Invite.class);
+        ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
+                format("/invite/%s", DTOUtils.VALID_UUID_STRING), Invite.class);
 
 
         assertThat(invite).isNotNull();
-        assertThat(invite.getStatusCodeValue()).isEqualTo(200);
-        assertThat(invite.getBody().getGoal()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(invite.getBody().getGoal()).isEqualTo(response.getUuid());
 
     }
 
     @Test
     public void getInviteByBadPathUUID() throws Exception {
-        ResponseEntity<Invite> invite = this.restTemplate.getForEntity(format("/invite/%s", "invalid-uuid-format"), Invite.class);
+        ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
+                format("/invite/%s", "invalid-uuid-format"), Invite.class);
 
-        assertThat(invite.getStatusCodeValue()).isEqualTo(400);
+        assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
     }
 
     @Test
     public void getInviteByInvalidInvite() throws Exception {
-        ResponseEntity<Invite> invite = this.restTemplate.getForEntity(format("/invite/%s", DTOUtils.NON_VALID_UUID_STRING), Invite.class);
+        ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
+                format("/invite/%s", DTOUtils.NON_VALID_UUID_STRING), Invite.class);
 
-        assertThat(invite.getStatusCodeValue()).isEqualTo(404);
+        assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
 
@@ -134,9 +133,9 @@ public class InviteIntegrationTest {
 
 
         assertThat(invite).isNotNull();
-        assertThat(invite.getStatusCodeValue()).isEqualTo(200);
+        assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(invite.getBody().getUuid()).isNotNull();
-        assertThat(invite.getBody().getGoal()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(invite.getBody().getGoal()).isEqualTo(response.getUuid());
     }
 
     @Test
@@ -144,7 +143,7 @@ public class InviteIntegrationTest {
         ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
                 format("/invite?goal=%s", "invalid-uuid-format"), Invite.class);
 
-        assertThat(invite.getStatusCodeValue()).isEqualTo(400);
+        assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -152,13 +151,30 @@ public class InviteIntegrationTest {
         ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
                 format("/invite?goal=%s", DTOUtils.NON_VALID_UUID_STRING), Invite.class);
 
-        assertThat(invite.getStatusCodeValue()).isEqualTo(400);
+        assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
 
     @Test
     public void deleteInvite() throws Exception {
+        Goal response = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "first goal"), Goal.class);
 
+        this.restTemplate.postForObject("/invite",
+                DTOUtils.createInvite(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
+
+        ResponseEntity<Invite> inviteToDelete = this.restTemplate.getForEntity(
+                format("/invite/%s", DTOUtils.VALID_UUID_STRING), Invite.class);
+
+        assertThat(inviteToDelete).isNotNull();
+        assertThat(inviteToDelete.getBody().getUuid()).isNotNull();
+
+        this.restTemplate.delete(format("/invite/%s", inviteToDelete.getBody().getUuid().toString()));
+
+        ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
+                format("/invite/%s", inviteToDelete.getBody().getUuid().toString()), Invite.class);
+
+        assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
 }
