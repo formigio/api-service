@@ -1,0 +1,587 @@
+---
+swagger: "2.0"
+info:
+  version: "2016-09-19T04:15:45Z"
+  title: "Commitr"
+host: "kd32ih1imd.execute-api.us-east-1.amazonaws.com"
+basePath: "/test"
+schemes:
+- "https"
+paths:
+  /:
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /goal:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Goal"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Goal"
+        required: true
+        schema:
+          $ref: "#/definitions/Goal"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /goal/{guid}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    put:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    delete:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /goal/{guid}/invites:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Invite"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Invite"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /goal/{guid}/invites/{uuid}:
+    put:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Invite"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    delete:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Invite"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /goal/{guid}/tasks:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Task"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Task"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /goal/{guid}/tasks/{uuid}:
+    put:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Task"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    delete:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Task"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "uuid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "guid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /team:
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Team"
+        required: true
+        schema:
+          $ref: "#/definitions/Team"
+      responses:
+        201:
+          description: "201 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /goal?teams={name}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Goal"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /team/{name}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Team"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    delete:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /team?member={member}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "member"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+  /auth/{clientId}:
+    get:
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Authenticated"
+
+definitions:
+  Task:
+    type: "object"
+    required:
+    - "goal"
+    - "title"
+    properties:
+      uuid:
+        type: "string"
+      goal:
+        type: "string"
+      completed:
+        type: "boolean"
+      title:
+        type: "string"
+    title: "Task"
+  Goal:
+    type: "object"
+    required:
+    - "title"
+    - "team"
+    properties:
+      guid:
+        type: "string"
+      title:
+        type: "string"
+      team:
+        type: "string"
+    title: "Goal"
+  Empty:
+    type: "object"
+    title: "Empty Schema"
+  Invite:
+    type: "object"
+    required:
+    - "goal"
+    properties:
+      uuid:
+        type: "string"
+      goal:
+        type: "string"
+    title: "Goal"
+  Team:
+    type: object
+    required:
+    - name
+    properties:
+      member:
+        type: "string"
+      name:
+        type: "string"
+  Principal:
+    type: object
+    required:
+    - username
+    properties:
+      username:
+        type: string
+      displayName:
+        type: string
+      bearerToken:
+        type: string
