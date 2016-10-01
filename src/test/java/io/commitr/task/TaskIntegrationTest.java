@@ -33,7 +33,8 @@ public class TaskIntegrationTest {
 
     @Test
     public void getTask() throws Exception {
-        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+        Goal validGoal = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = DTOUtils.createTask(null, "Create a task with a valid Goal - Task", validGoal.getUuid(), false);
 
@@ -46,7 +47,8 @@ public class TaskIntegrationTest {
     @Test
     public void createTaskWithValidGoal() throws Exception{
 
-        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+        Goal validGoal = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -55,7 +57,8 @@ public class TaskIntegrationTest {
         task.setGoal(validGoal.getUuid());
         task.setCompleted(false);
 
-        ResponseEntity<Task> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
+        ResponseEntity<Task> response = this.restTemplate.postForEntity(
+                new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getStatusCodeValue()).isEqualTo(201);
@@ -86,7 +89,8 @@ public class TaskIntegrationTest {
 
         HttpEntity<String> request = new HttpEntity<String>(JsonUtils.convertObject(taskDTO).toString(), headers);
 
-        ResponseEntity<Task> response = this.restTemplate.exchange(new URI("http://localhost:"+ port +"/task"), HttpMethod.POST, request, Task.class);
+        ResponseEntity<Task> response = this.restTemplate.exchange(
+                new URI("http://localhost:"+ port +"/task"), HttpMethod.POST, request, Task.class);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(400);
         //TODO: Need to check that message is coming back and it is the one we are expecting
@@ -94,7 +98,8 @@ public class TaskIntegrationTest {
 
     @Test
     public void updateTaskWithValidUUID() throws Exception {
-        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+        Goal validGoal = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -103,14 +108,16 @@ public class TaskIntegrationTest {
         task.setGoal(validGoal.getUuid());
         task.setCompleted(false);
 
-        ResponseEntity<Task> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
+        ResponseEntity<Task> response = this.restTemplate.postForEntity(
+                new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
         task.setUuid(response.getBody().getUuid());
         task.setTitle("Test Update Task");
 
         this.restTemplate.put("/task", task);
 
-        ResponseEntity<Task> responseWithUpdate = this.restTemplate.getForEntity(new URI(format("http://localhost:%d/task/%s", port, response.getBody().getUuid().toString())), Task.class);
+        ResponseEntity<Task> responseWithUpdate = this.restTemplate.getForEntity(
+                new URI(format("http://localhost:%d/task/%s", port, response.getBody().getUuid().toString())), Task.class);
 
         assertThat(responseWithUpdate.getStatusCodeValue()).isEqualTo(200);
     }
@@ -130,7 +137,8 @@ public class TaskIntegrationTest {
 
         HttpEntity<String> request = new HttpEntity<String>(JsonUtils.convertObject(taskDTO).toString(), headers);
 
-        ResponseEntity<Task> response = this.restTemplate.exchange(new URI("http://localhost:"+ port +"/task"), HttpMethod.PUT, request, Task.class);
+        ResponseEntity<Task> response = this.restTemplate.exchange(
+                new URI("http://localhost:"+ port +"/task"), HttpMethod.PUT, request, Task.class);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(400);
         //TODO: Need to check that message is coming back and it is the one we are expecting
@@ -149,7 +157,8 @@ public class TaskIntegrationTest {
 
         HttpEntity<String> request = new HttpEntity<String>(JsonUtils.convertObject(taskDTO).toString(), headers);
 
-        ResponseEntity<Task> response = this.restTemplate.exchange(new URI("http://localhost:"+ port +"/task"), HttpMethod.PUT, request, Task.class);
+        ResponseEntity<Task> response = this.restTemplate.exchange(
+                new URI("http://localhost:"+ port +"/task"), HttpMethod.PUT, request, Task.class);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(400);
         //TODO: Need to check that message is coming back and it is the one we are expecting
@@ -157,7 +166,8 @@ public class TaskIntegrationTest {
 
     @Test
     public void deleteTaskWithValidUUID() throws Exception{
-        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+        Goal validGoal = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -166,13 +176,15 @@ public class TaskIntegrationTest {
         task.setGoal(validGoal.getUuid());
         task.setCompleted(false);
 
-        ResponseEntity<Task> response = this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
+        ResponseEntity<Task> response = this.restTemplate.postForEntity(
+                new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(201);
 
         this.restTemplate.delete(new URI(format("http://localhost:%d/task/%s",port,response.getBody().getUuid().toString())));
 
-        ResponseEntity<Task> responseAfterDelete = this.restTemplate.getForEntity(new URI(format("http://localhost:%d/task/%s", port,response.getBody().getUuid().toString())), Task.class);
+        ResponseEntity<Task> responseAfterDelete = this.restTemplate.getForEntity(
+                new URI(format("http://localhost:%d/task/%s", port,response.getBody().getUuid().toString())), Task.class);
 
         assertThat(responseAfterDelete.getStatusCodeValue()).isEqualTo(404);
     }
@@ -182,14 +194,16 @@ public class TaskIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<String> entity = new HttpEntity<String>("", headers);
-        ResponseEntity<String> response = this.restTemplate.exchange(format("/task/%s", DTOUtils.NON_VALID_UUID_STRING), HttpMethod.DELETE, entity, String.class);
+        ResponseEntity<String> response = this.restTemplate.exchange(format("/task/%s", DTOUtils.NON_VALID_UUID_STRING),
+                HttpMethod.DELETE, entity, String.class);
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
     }
 
 
     @Test
     public void getTasksByValidGoal() throws Exception{
-        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+        Goal validGoal = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -205,7 +219,8 @@ public class TaskIntegrationTest {
 
         this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
-        ResponseEntity<Task[]> response = this.restTemplate.getForEntity(format("/task?goal=%s", validGoal.getUuid().toString()), Task[].class);
+        ResponseEntity<Task[]> response = this.restTemplate.getForEntity(
+                format("/task?goal=%s", validGoal.getUuid().toString()), Task[].class);
 
         Task[] tasks = response.getBody();
 
@@ -213,7 +228,8 @@ public class TaskIntegrationTest {
     }
 
     private Task postTestTask() {
-        Goal validGoal = this.restTemplate.postForObject("/goal", DTOUtils.createGoal(null, "Create Task with Valid Goal"), Goal.class);
+        Goal validGoal = this.restTemplate.postForObject("/goal",
+                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = DTOUtils.createTask(null,
                 "Test Task",

@@ -3,6 +3,7 @@ package io.commitr.util;
 import io.commitr.goal.Goal;
 import io.commitr.invite.Invite;
 import io.commitr.task.Task;
+import io.commitr.team.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,10 +20,11 @@ public class DTOUtils {
     public static UUID NON_VALID_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
     public static String NON_VALID_UUID_STRING = "00000000-0000-0000-0000-000000000000";
 
-    public static Goal createGoal(UUID uuid, String title) {
+    public static Goal createGoal(UUID uuid, String title, UUID team) {
         Goal goal = new Goal();
         goal.setUuid(uuid);
         goal.setTitle(title);
+        goal.setTeam(team);
 
         return goal;
     }
@@ -37,15 +39,6 @@ public class DTOUtils {
         return task;
     }
 
-    @Data
-    @AllArgsConstructor
-    public static class TaskDTO {
-        private String uuid;
-        private String title;
-        private String goal;
-        private Boolean completed;
-    }
-
     public static Invite createInvite(UUID uuid, UUID goal) {
         Invite invite = new Invite();
 
@@ -53,5 +46,24 @@ public class DTOUtils {
         invite.setGoal(goal);
 
         return invite;
+    }
+
+    public static Team createTeam(UUID uuid, String name, UUID identity) {
+        Team team = new Team();
+        team.setUuid(uuid);
+        team.setName(name);
+        team.setIdentity(identity);
+
+        return team;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class TaskDTO {
+        private String uuid;
+        private String title;
+        private String goal;
+        private Boolean completed;
+
     }
 }

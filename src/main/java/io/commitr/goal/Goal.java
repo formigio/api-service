@@ -26,6 +26,9 @@ public class Goal {
 	@Length(max = 255)
 	private String title;
 
+	@NotNull
+	private UUID team;
+
 	@PrePersist
 	void prePersist() {
 		if (null==this.uuid) {

@@ -26,14 +26,16 @@ public class GoalRepositoryTest {
     public void createGoal() throws Exception {
         repository.save(
                 DTOUtils.createGoal(null,
-                        "Test Goal"));
+                        "Test Goal",
+                        DTOUtils.VALID_UUID));
     }
 
     @Test
     public void findGoal() throws Exception {
         repository.save(
                 DTOUtils.createGoal(DTOUtils.VALID_UUID,
-                        "Test Goal"));
+                        "Test Goal",
+                        DTOUtils.VALID_UUID));
 
         Goal goal = repository.findByUuid(DTOUtils.VALID_UUID);
 

@@ -27,7 +27,7 @@ public class InviteRepositoryTest {
 
     @Test
     public void testSaveInvite() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal", DTOUtils.VALID_UUID));
 
         Invite invite = repository.save(DTOUtils.createInvite(null, g.getUuid()));
 
@@ -38,7 +38,7 @@ public class InviteRepositoryTest {
 
     @Test
     public void testFindInviteByUuid() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal", DTOUtils.VALID_UUID));
 
         Invite i = DTOUtils.createInvite(null, g.getUuid());
 
@@ -52,7 +52,7 @@ public class InviteRepositoryTest {
 
     @Test
     public void testFindInviteByGoal() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal", DTOUtils.VALID_UUID));
 
         Invite i = DTOUtils.createInvite(null, g.getUuid());
 
@@ -66,7 +66,7 @@ public class InviteRepositoryTest {
 
     @Test
     public void testFindGoalByInvite() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal", DTOUtils.VALID_UUID));
 
         Invite i = DTOUtils.createInvite(null, g.getUuid());
 
@@ -83,7 +83,7 @@ public class InviteRepositoryTest {
 
     @Test
     public void testDelete() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal", DTOUtils.VALID_UUID));
 
         Invite i = DTOUtils.createInvite(null, g.getUuid());
 

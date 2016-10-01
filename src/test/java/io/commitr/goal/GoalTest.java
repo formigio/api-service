@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.json.JsonContent;
+import org.springframework.boot.test.json.ObjectContent;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,41 +26,35 @@ public class GoalTest {
     @Test
     public void testSerializeWithGuid() throws Exception {
         Goal goal = new Goal();
+
         goal.setId(1L);
         goal.setUuid(DTOUtils.VALID_UUID);
         goal.setTitle("Goal Test");
+        goal.setTeam(DTOUtils.VALID_UUID);
 
-        assertThat(this.json.write(goal))
-                .doesNotHaveJsonPathValue("$.id");
+        JsonContent<Goal> content = this.json.write(goal);
 
-        assertThat(this.json.write(goal))
-                .hasJsonPathStringValue("$.guid");
-        assertThat(this.json.write(goal))
-                .extractingJsonPathStringValue("$.guid").isEqualTo(DTOUtils.VALID_UUID_STRING);
-
-        assertThat(this.json.write(goal))
-                .hasJsonPathStringValue("$.title");
-        assertThat(this.json.write(goal))
-                .extractingJsonPathStringValue("$.title").isEqualTo("Goal Test");
+        content.assertThat().doesNotHaveJsonPathValue("$.id");
+        content.assertThat().hasJsonPathStringValue("$.guid", DTOUtils.VALID_UUID_STRING);
+        content.assertThat().hasJsonPathStringValue("$.title", "Goal Test");
+        content.assertThat().hasJsonPathStringValue("$.team", DTOUtils.VALID_UUID_STRING);
     }
 
     @Test
     public void testDeserializeWithGuid() throws Exception {
 
-        Goal goal = new Goal();
-        goal.setUuid(DTOUtils.VALID_UUID);
-        goal.setTitle("Test Goal");
-
         String content = "{" +
                 "    \"id\":1," +
                 "    \"guid\":\"" + DTOUtils.VALID_UUID_STRING + "\"," +
-                "    \"title\":\"Test Goal\"" +
+                "    \"title\":\"Test Goal\"," +
+                "    \"team\":\"" + DTOUtils.VALID_UUID_STRING + "\"" +
                 "}";
 
-        assertThat(this.json.parse(content))
-                .isEqualTo(goal);
-        assertThat(this.json.parseObject(content).getId()).isNull();
-        assertThat(this.json.parseObject(content).getUuid()).isEqualTo(DTOUtils.VALID_UUID);
-        assertThat(this.json.parseObject(content).getTitle()).isEqualTo("Test Goal");
+        Goal goal = this.json.parseObject(content);
+
+        assertThat(goal.getId()).isNull();
+        assertThat(goal.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(goal.getTitle()).isEqualTo("Test Goal");
+        assertThat(goal.getTeam()).isEqualTo(DTOUtils.VALID_UUID);
     }
 }

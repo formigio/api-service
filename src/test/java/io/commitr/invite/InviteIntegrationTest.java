@@ -30,7 +30,7 @@ public class InviteIntegrationTest {
     @Test
     public void createInviteWithValidGoal() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal"), Goal.class);
+                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         String content = "{" +
                 "    \"guid\":null," +
@@ -87,7 +87,7 @@ public class InviteIntegrationTest {
     @Test
     public void getInviteByUuid() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal"), Goal.class);
+                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         this.restTemplate.postForObject("/invite",
                 DTOUtils.createInvite(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
@@ -123,7 +123,7 @@ public class InviteIntegrationTest {
     @Test
     public void getInviteByGoal() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal"), Goal.class);
+                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         this.restTemplate.postForObject("/invite", DTOUtils.createInvite(null,
                 response.getUuid()), Invite.class);
@@ -158,7 +158,7 @@ public class InviteIntegrationTest {
     @Test
     public void deleteInvite() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal"), Goal.class);
+                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         this.restTemplate.postForObject("/invite",
                 DTOUtils.createInvite(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
