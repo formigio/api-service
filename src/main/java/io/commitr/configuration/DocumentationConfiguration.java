@@ -18,19 +18,16 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnableSwagger2
 public class DocumentationConfiguration {
     @Bean
+    @SuppressWarnings({"unchecked", "unsafe"})
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("io.commitr"))
-                .paths(paths())
+                .paths(or(
+                        regex("/goal/*"),
+                        regex("/invite/*"),
+                        regex("/task/*"),
+                        regex("/team/*")))
                 .build();
-    }
-
-    private Predicate<String> paths() {
-        return or(
-                regex("/goal/*"),
-                regex("/invite/*"),
-                regex("/task/*"),
-                regex("/team/*"));
     }
 }
