@@ -18,6 +18,12 @@ optionally you can build without running tests adding `-x test` to the run comma
 ##Running
 `java -jar -Dspring.profiles.active=prod commitr-service-0.0.1-SNAPSHOT.jar`
 
+##Documentation
+###Swagger 2.0 - swagger.yaml
+`http://<server>:<port>/v2/api-docs`
+###Swagger UI
+`http://<server>:<port>/swagger-ui.html`
+
 ##Development
 Local development is pretty straightforwrd, 
 **nix*
