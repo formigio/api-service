@@ -1,5 +1,7 @@
 package io.commitr.task;
 
+import io.commitr.configuration.DocumentationConfiguration;
+import io.commitr.configuration.ValidationConfiguration;
 import io.commitr.goal.Goal;
 import io.commitr.goal.GoalService;
 import io.commitr.util.DTOUtils;
@@ -10,9 +12,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.xml.DocumentDefaultsDefinition;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,12 +27,23 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 /**
  * Created by peter on 9/15/16.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@DataJpaTest(excludeFilters = {
+        @ComponentScan.Filter(type = ASSIGNABLE_TYPE,
+                value = {
+                        DocumentationConfiguration.class
+                })},
+        includeFilters = {
+        @ComponentScan.Filter(type = ASSIGNABLE_TYPE,
+                value = {
+                        ValidationConfiguration.class
+                })
+        })
 public class TaskRepositoryTest {
 
     @Autowired
@@ -109,7 +125,7 @@ public class TaskRepositoryTest {
 
         List<Task> tasks = repository.findByGoal(DTOUtils.VALID_UUID);
 
-        assertThat(tasks.size()).isGreaterThan(1);
+        assertThat(tasks.size()).isEqualTo(2);
 
     }
 }
