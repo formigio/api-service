@@ -2,6 +2,7 @@ package io.commitr.invite;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.commitr.annotation.ValidGoal;
 import lombok.Data;
 
 import javax.persistence.Entity;

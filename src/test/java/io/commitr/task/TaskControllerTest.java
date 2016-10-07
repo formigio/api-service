@@ -1,5 +1,8 @@
 package io.commitr.task;
 
+import io.commitr.goal.Goal;
+import io.commitr.goal.GoalService;
+import io.commitr.goal.GoalServiceImpl;
 import io.commitr.util.DTOUtils;
 import io.commitr.util.JsonUtils;
 import org.junit.Before;
@@ -9,6 +12,9 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -36,9 +41,11 @@ public class TaskControllerTest {
     @MockBean
     private TaskService service;
 
+    @MockBean
+    private GoalService goalService;
+
     @Before
     public void setUp() throws Exception {
-
 
         dtoNotCompleted.setUuid(DTOUtils.VALID_UUID);
         dtoNotCompleted.setTitle("Test Task");
@@ -64,6 +71,12 @@ public class TaskControllerTest {
 
         given(this.service.getTask(DTOUtils.VALID_UUID))
                 .willReturn(dtoCompleted);
+
+        given(this.goalService.getGoal(DTOUtils.VALID_UUID))
+                .willReturn(Goal.of(DTOUtils.VALID_UUID, "Test Goal", DTOUtils.VALID_UUID));
+
+        given(this.goalService.getGoal(DTOUtils.NON_VALID_UUID))
+                .willReturn(null);
     }
 
     @Test
@@ -119,4 +132,15 @@ public class TaskControllerTest {
                 .andExpect(status().isOk());
 
     }
+//
+//    @Configuration
+//    static class ControllerConfig {
+//
+//        @Mock
+//        GoalServiceImpl service;
+//
+//        @Primary
+//        @Bean
+//        public GoalService goalService() { return service; }
+//    }
 }

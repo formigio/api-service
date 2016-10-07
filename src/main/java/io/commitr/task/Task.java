@@ -2,15 +2,15 @@ package io.commitr.task;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.commitr.goal.Goal;
-import lombok.AllArgsConstructor;
+import io.commitr.annotation.ValidGoal;
+import io.commitr.validator.ValidationGroups.Post;
+import io.commitr.validator.ValidationGroups.Put;
 import lombok.Data;
-import org.hibernate.annotations.Parent;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.beans.ConstructorProperties;
 import java.util.UUID;
 
 /**
@@ -21,11 +21,21 @@ import java.util.UUID;
 public class Task {
 
     @Id
-    @GeneratedValue
+    @GenericGenerator(
+            name = "task_sequence",
+            strategy = "sequence",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "sequence",
+                            value = "sequence"
+                    )
+
+            })
+    @GeneratedValue(generator = "task_sequence")
     @JsonIgnore
     private Long id;
 
-    @NotNull
+    @NotNull(groups = {Put.class})
     @JsonProperty("guid")
     private UUID uuid;
 
@@ -33,6 +43,7 @@ public class Task {
     private String title;
 
     @NotNull
+    @ValidGoal
     private UUID goal;
 
     private Boolean completed;
@@ -46,5 +57,14 @@ public class Task {
         if (null==completed) {
             completed = false;
         }
+    }
+
+    public static Task of(UUID uuid, String title, UUID goal, Boolean completed) {
+        Task t = new Task();
+        t.setUuid(uuid);
+        t.setTitle(title);
+        t.setGoal(goal);
+        t.setCompleted(completed);
+        return t;
     }
 }

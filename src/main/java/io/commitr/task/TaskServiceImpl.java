@@ -30,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
             return null;
         }
 
-        taskRepository.save(task);
+        taskRepository.saveAndFlush(task);
 
         return task;
     }
@@ -71,8 +71,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public void delete(UUID uuid) {
-        taskRepository.deleteByUuid(uuid);
+    public void delete(Task task) {
+        taskRepository.delete(task);
     }
 
 }

@@ -14,8 +14,5 @@ public interface TaskRepository extends JpaRepository<Task, UUID>{
 
     Task findByUuid(UUID uuid);
 
-    @Modifying
-    Long deleteByUuid(UUID uuid);
-
     List<Task> findByGoal(UUID goal);
 }
