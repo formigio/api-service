@@ -20,34 +20,6 @@ public class DTOUtils {
     public static UUID NON_VALID_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
     public static String NON_VALID_UUID_STRING = "00000000-0000-0000-0000-000000000000";
 
-    public static Goal createGoal(UUID uuid, String title, UUID team) {
-        Goal goal = new Goal();
-        goal.setUuid(uuid);
-        goal.setTitle(title);
-        goal.setTeam(team);
-
-        return goal;
-    }
-
-    public static Task createTask(UUID uuid, String title, UUID goal, Boolean completed) {
-        Task task = new Task();
-        task.setUuid(uuid);
-        task.setTitle(title);
-        task.setGoal(goal);
-        task.setCompleted(completed);
-
-        return task;
-    }
-
-    public static Invite createInvite(UUID uuid, UUID goal) {
-        Invite invite = new Invite();
-
-        invite.setUuid(uuid);
-        invite.setGoal(goal);
-
-        return invite;
-    }
-
     @Data
     @AllArgsConstructor
     public static class TaskDTO {

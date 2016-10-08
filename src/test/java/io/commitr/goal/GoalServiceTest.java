@@ -39,7 +39,7 @@ public class GoalServiceTest {
     @Test
     public void createGoal() throws Exception {
         given(this.goalRepository.save(goalMock))
-                .willReturn(DTOUtils.createGoal(DTOUtils.VALID_UUID, "Test Goal", DTOUtils.VALID_UUID));
+                .willReturn(Goal.of(DTOUtils.VALID_UUID, "Test Goal", DTOUtils.VALID_UUID));
 
         Goal goal = goalService.createGoal(goalMock);
 
@@ -51,7 +51,7 @@ public class GoalServiceTest {
     @Test
     public void getGoal() throws Exception {
         given(this.goalRepository.findByUuid(DTOUtils.VALID_UUID))
-                .willReturn(DTOUtils.createGoal(DTOUtils.VALID_UUID, "Test Goal", DTOUtils.VALID_UUID));
+                .willReturn(Goal.of(DTOUtils.VALID_UUID, "Test Goal", DTOUtils.VALID_UUID));
 
         Goal goal = goalService.getGoal(DTOUtils.VALID_UUID);
 

@@ -34,9 +34,9 @@ public class TaskIntegrationTest {
     @Test
     public void getTask() throws Exception {
         Goal validGoal = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
-        Task task = DTOUtils.createTask(null, "Create a task with a valid Goal - Task", validGoal.getUuid(), false);
+        Task task = Task.of(null, "Create a task with a valid Goal - Task", validGoal.getUuid(), false);
 
         Task dto = this.restTemplate.postForObject("/task", task, Task.class);
 
@@ -48,7 +48,7 @@ public class TaskIntegrationTest {
     public void createTaskWithValidGoal() throws Exception{
 
         Goal validGoal = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -68,7 +68,7 @@ public class TaskIntegrationTest {
 
     @Test
     public void createTaskWithNonValidGoal() {
-        Task task = DTOUtils.createTask(null, "Test Task",DTOUtils.NON_VALID_UUID, false);
+        Task task = Task.of(null, "Test Task",DTOUtils.NON_VALID_UUID, false);
 
         ResponseEntity<Task> response = postTaskWithResponseEntity(task);
 
@@ -99,7 +99,7 @@ public class TaskIntegrationTest {
     @Test
     public void updateTaskWithValidUUID() throws Exception {
         Goal validGoal = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -167,7 +167,7 @@ public class TaskIntegrationTest {
     @Test
     public void deleteTaskWithValidUUID() throws Exception{
         Goal validGoal = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -203,7 +203,7 @@ public class TaskIntegrationTest {
     @Test
     public void getTasksByValidGoal() throws Exception{
         Goal validGoal = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
         Task task = new Task();
 
@@ -229,9 +229,9 @@ public class TaskIntegrationTest {
 
     private Task postTestTask() {
         Goal validGoal = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
 
-        Task task = DTOUtils.createTask(null,
+        Task task = Task.of(null,
                 "Test Task",
                 validGoal.getUuid(),
                 false);

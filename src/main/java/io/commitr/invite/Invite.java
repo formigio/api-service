@@ -38,4 +38,11 @@ public class Invite {
         }
     }
 
+    public static Invite of(UUID uuid, UUID goal) {
+        Invite i = new Invite();
+        i.setUuid(uuid);
+        i.setGoal(goal);
+        return i;
+    }
+
 }

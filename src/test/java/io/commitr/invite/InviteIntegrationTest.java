@@ -30,7 +30,7 @@ public class InviteIntegrationTest {
     @Test
     public void createInviteWithValidGoal() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         String content = "{" +
                 "    \"guid\":null," +
@@ -87,10 +87,10 @@ public class InviteIntegrationTest {
     @Test
     public void getInviteByUuid() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         this.restTemplate.postForObject("/invite",
-                DTOUtils.createInvite(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
+                Invite.of(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
 
         ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
                 format("/invite/%s", DTOUtils.VALID_UUID_STRING), Invite.class);
@@ -123,9 +123,9 @@ public class InviteIntegrationTest {
     @Test
     public void getInviteByGoal() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
-        this.restTemplate.postForObject("/invite", DTOUtils.createInvite(null,
+        this.restTemplate.postForObject("/invite", Invite.of(null,
                 response.getUuid()), Invite.class);
 
         ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
@@ -158,10 +158,10 @@ public class InviteIntegrationTest {
     @Test
     public void deleteInvite() throws Exception {
         Goal response = this.restTemplate.postForObject("/goal",
-                DTOUtils.createGoal(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         this.restTemplate.postForObject("/invite",
-                DTOUtils.createInvite(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
+                Invite.of(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
 
         ResponseEntity<Invite> inviteToDelete = this.restTemplate.getForEntity(
                 format("/invite/%s", DTOUtils.VALID_UUID_STRING), Invite.class);

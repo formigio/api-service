@@ -25,7 +25,7 @@ public class GoalRepositoryTest {
     @Test
     public void createGoal() throws Exception {
         repository.save(
-                DTOUtils.createGoal(null,
+                Goal.of(null,
                         "Test Goal",
                         DTOUtils.VALID_UUID));
     }
@@ -33,7 +33,7 @@ public class GoalRepositoryTest {
     @Test
     public void findGoal() throws Exception {
         repository.save(
-                DTOUtils.createGoal(DTOUtils.VALID_UUID,
+                Goal.of(DTOUtils.VALID_UUID,
                         "Test Goal",
                         DTOUtils.VALID_UUID));
 

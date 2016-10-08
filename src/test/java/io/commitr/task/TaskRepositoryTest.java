@@ -53,7 +53,7 @@ public class TaskRepositoryTest {
     public void saveTask() throws Exception {
 
         Task task = repository.save(
-                DTOUtils.createTask(null, "Test Task",
+                Task.of(null, "Test Task",
                         DTOUtils.VALID_UUID,
                         false)
         );
@@ -67,7 +67,7 @@ public class TaskRepositoryTest {
     public void findTask() throws Exception {
 
         Task taskSaved = repository.save(
-                DTOUtils.createTask(null, "Test Task",
+                Task.of(null, "Test Task",
                         DTOUtils.VALID_UUID,
                         false));
 
@@ -82,7 +82,7 @@ public class TaskRepositoryTest {
     @Test
     public void updateTask() throws Exception {
         Task taskSaved = repository.save(
-                DTOUtils.createTask(null, "Test Task",
+                Task.of(null, "Test Task",
                         DTOUtils.VALID_UUID,
                         false));
 

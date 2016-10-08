@@ -84,7 +84,7 @@ public class InviteServiceTest {
     @Test
     public void testSaveInviteWithNonValidGoal() throws Exception {
 
-        Invite invite = service.saveInvite(DTOUtils.createInvite(DTOUtils.VALID_UUID, DTOUtils.NON_VALID_UUID));
+        Invite invite = service.saveInvite(Invite.of(DTOUtils.VALID_UUID, DTOUtils.NON_VALID_UUID));
 
         assertThat(invite).isNull();
     }
