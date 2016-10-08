@@ -1,587 +1,474 @@
----
-swagger: "2.0"
-info:
-  version: "2016-09-19T04:15:45Z"
-  title: "Commitr"
-host: "kd32ih1imd.execute-api.us-east-1.amazonaws.com"
-basePath: "/test"
-schemes:
-- "https"
-paths:
-  /:
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /goal:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Goal"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    post:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "Goal"
-        required: true
-        schema:
-          $ref: "#/definitions/Goal"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /goal/{guid}:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    put:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    delete:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /goal/{guid}/invites:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Invite"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    post:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Invite"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /goal/{guid}/invites/{uuid}:
-    put:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "uuid"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Invite"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    delete:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "uuid"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Invite"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "uuid"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /goal/{guid}/tasks:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Task"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    post:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Task"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /goal/{guid}/tasks/{uuid}:
-    put:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "uuid"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Task"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    delete:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "uuid"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Task"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "uuid"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "guid"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /team:
-    post:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "Team"
-        required: true
-        schema:
-          $ref: "#/definitions/Team"
-      responses:
-        201:
-          description: "201 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /goal?teams={name}:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        type: string
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Goal"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /team/{name}:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Team"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    delete:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /team?member={member}:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "member"
-        in: "path"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /auth/{clientId}:
-    get:
-      parameters:
-      - name: clientId
-        in: path
-        required: true
-        type: string
-      responses:
-        200:
-          description: "Authenticated"
-
-definitions:
-  Task:
-    type: "object"
-    required:
-    - "goal"
-    - "title"
-    properties:
-      uuid:
-        type: "string"
-      goal:
-        type: "string"
-      completed:
-        type: "boolean"
-      title:
-        type: "string"
-    title: "Task"
-  Goal:
-    type: "object"
-    required:
-    - "title"
-    - "team"
-    properties:
-      guid:
-        type: "string"
-      title:
-        type: "string"
-      team:
-        type: "string"
-    title: "Goal"
-  Empty:
-    type: "object"
-    title: "Empty Schema"
-  Invite:
-    type: "object"
-    required:
-    - "goal"
-    properties:
-      uuid:
-        type: "string"
-      goal:
-        type: "string"
-    title: "Goal"
-  Team:
-    type: object
-    required:
-    - name
-    properties:
-      member:
-        type: "string"
-      name:
-        type: "string"
-  Principal:
-    type: object
-    required:
-    - username
-    properties:
-      username:
-        type: string
-      displayName:
-        type: string
-      bearerToken:
-        type: string
+{
+"swagger": "2.0",
+"info": {
+"description": "Api Documentation",
+"version": "1.0",
+"title": "Api Documentation",
+"termsOfService": "urn:tos",
+"contact": {},
+"license": {
+"name": "Apache 2.0",
+"url": "http://www.apache.org/licenses/LICENSE-2.0"
+}
+},
+"host": "localhost:8080",
+"basePath": "/",
+"tags": [
+{
+"name": "task-controller",
+"description": "Task Controller"
+},
+{
+"name": "team-controller",
+"description": "Team Controller"
+},
+{
+"name": "goal-controller",
+"description": "Goal Controller"
+},
+{
+"name": "invite-controller",
+"description": "Invite Controller"
+}
+],
+"paths": {
+"/goal": {
+"post": {
+"tags": [
+"goal-controller"
+],
+"summary": "setGoal",
+"operationId": "setGoalUsingPOST",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"in": "body",
+"name": "goal",
+"description": "goal",
+"required": true,
+"schema": {
+"$ref": "#/definitions/Goal"
+}
+}
+],
+"responses": {
+"201": {
+"description": "Created",
+"schema": {
+"$ref": "#/definitions/Goal"
+}
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+}
+},
+"/invite": {
+"get": {
+"tags": [
+"invite-controller"
+],
+"summary": "getInviteByGoal",
+"operationId": "getInviteByGoalUsingGET",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"name": "goal",
+"in": "query",
+"description": "goal",
+"required": true,
+"type": "string"
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"schema": {
+"$ref": "#/definitions/Invite"
+}
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+},
+"post": {
+"tags": [
+"invite-controller"
+],
+"summary": "createInvite",
+"operationId": "createInviteUsingPOST",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"in": "body",
+"name": "invite",
+"description": "invite",
+"required": true,
+"schema": {
+"$ref": "#/definitions/Invite"
+}
+}
+],
+"responses": {
+"201": {
+"description": "Created",
+"schema": {
+"$ref": "#/definitions/Invite"
+}
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+}
+},
+"/task": {
+"get": {
+"tags": [
+"task-controller"
+],
+"summary": "getTasksByGoal",
+"operationId": "getTasksByGoalUsingGET",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"name": "goal",
+"in": "query",
+"description": "goal",
+"required": true,
+"type": "string"
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/Task"
+}
+}
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+},
+"post": {
+"tags": [
+"task-controller"
+],
+"summary": "createTask",
+"operationId": "createTaskUsingPOST",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"in": "body",
+"name": "dto",
+"description": "dto",
+"required": true,
+"schema": {
+"$ref": "#/definitions/Task"
+}
+}
+],
+"responses": {
+"201": {
+"description": "Created",
+"schema": {
+"$ref": "#/definitions/Task"
+}
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+},
+"put": {
+"tags": [
+"task-controller"
+],
+"summary": "updateTask",
+"operationId": "updateTaskUsingPUT",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"in": "body",
+"name": "dto",
+"description": "dto",
+"required": true,
+"schema": {
+"$ref": "#/definitions/Task"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK"
+},
+"201": {
+"description": "Created"
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+}
+},
+"/team": {
+"get": {
+"tags": [
+"team-controller"
+],
+"summary": "getTeamByIdentity",
+"operationId": "getTeamByIdentityUsingGET",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"name": "identity",
+"in": "query",
+"description": "identity",
+"required": true,
+"type": "string"
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/Team"
+}
+}
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+},
+"post": {
+"tags": [
+"team-controller"
+],
+"summary": "createTeam",
+"operationId": "createTeamUsingPOST",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"in": "body",
+"name": "team",
+"description": "team",
+"required": true,
+"schema": {
+"$ref": "#/definitions/Team"
+}
+}
+],
+"responses": {
+"201": {
+"description": "Created",
+"schema": {
+"$ref": "#/definitions/Team"
+}
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+},
+"put": {
+"tags": [
+"team-controller"
+],
+"summary": "updateTeam",
+"operationId": "updateTeamUsingPUT",
+"consumes": [
+"application/json"
+],
+"produces": [
+"*/*"
+],
+"parameters": [
+{
+"in": "body",
+"name": "team",
+"description": "team",
+"required": true,
+"schema": {
+"$ref": "#/definitions/Team"
+}
+}
+],
+"responses": {
+"200": {
+"description": "OK",
+"schema": {
+"$ref": "#/definitions/Team"
+}
+},
+"201": {
+"description": "Created"
+},
+"401": {
+"description": "Unauthorized"
+},
+"403": {
+"description": "Forbidden"
+},
+"404": {
+"description": "Not Found"
+}
+}
+}
+}
+},
+"definitions": {
+"Goal": {
+"type": "object",
+"properties": {
+"guid": {
+"type": "string"
+},
+"team": {
+"type": "string"
+},
+"title": {
+"type": "string"
+}
+}
+},
+"Task": {
+"type": "object",
+"properties": {
+"completed": {
+"type": "boolean"
+},
+"goal": {
+"type": "string"
+},
+"guid": {
+"type": "string"
+},
+"title": {
+"type": "string"
+}
+}
+},
+"Team": {
+"type": "object",
+"properties": {
+"identity": {
+"type": "string"
+},
+"title": {
+"type": "string"
+},
+"uuid": {
+"type": "string"
+}
+}
+},
+"Invite": {
+"type": "object",
+"properties": {
+"goal": {
+"type": "string"
+},
+"guid": {
+"type": "string"
+}
+}
+}
+}
+}

@@ -1,8 +1,7 @@
 package io.commitr.goal;
 
-import io.commitr.controller.ResourceNotFoundException;
-import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

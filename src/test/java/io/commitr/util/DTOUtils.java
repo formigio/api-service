@@ -48,15 +48,6 @@ public class DTOUtils {
         return invite;
     }
 
-    public static Team createTeam(UUID uuid, String name, UUID identity) {
-        Team team = new Team();
-        team.setUuid(uuid);
-        team.setName(name);
-        team.setIdentity(identity);
-
-        return team;
-    }
-
     @Data
     @AllArgsConstructor
     public static class TaskDTO {

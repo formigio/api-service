@@ -27,14 +27,14 @@ public class TeamTest {
         Team team = new Team();
 
         team.setId(1L);
-        team.setName("Team Test");
+        team.setTitle("Team Test");
         team.setUuid(DTOUtils.VALID_UUID);
         team.setIdentity(DTOUtils.VALID_UUID);
 
         JsonContent<Team> content = this.json.write(team);
 
         content.assertThat().doesNotHaveJsonPathValue("$.id");
-        content.assertThat().hasJsonPathStringValue("$.name", "Team Test");
+        content.assertThat().hasJsonPathStringValue("$.title", "Team Test");
         content.assertThat().hasJsonPathStringValue("$.uuid", DTOUtils.VALID_UUID_STRING);
         content.assertThat().hasJsonPathStringValue("$.identity", DTOUtils.VALID_UUID_STRING);
 
@@ -44,7 +44,7 @@ public class TeamTest {
     public void testDeserialize() throws Exception {
         String content = "{" +
                 "    \"id\":1," +
-                "    \"name\":\"Team Test\"," +
+                "    \"title\":\"Team Test\"," +
                 "    \"uuid\":\"" + DTOUtils.VALID_UUID_STRING + "\"," +
                 "    \"identity\":\"" + DTOUtils.VALID_UUID_STRING + "\"" +
                 "}";
@@ -52,8 +52,8 @@ public class TeamTest {
         Team team = this.json.parseObject(content);
 
         assertThat(team.getId()).isNull();
-        assertThat(team.getName()).isNotNull();
-        assertThat(team.getName()).isEqualTo("Team Test");
+        assertThat(team.getTitle()).isNotNull();
+        assertThat(team.getTitle()).isEqualTo("Team Test");
         assertThat(team.getUuid()).isNotNull();
         assertThat(team.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(team.getIdentity()).isNotNull();

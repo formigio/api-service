@@ -1,13 +1,9 @@
 package io.commitr.invite;
 
-import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpMethod;
+import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.UUID;
 

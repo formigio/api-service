@@ -1,9 +1,9 @@
 package io.commitr.task;
 
 import io.commitr.annotation.ValidGoal;
-import io.commitr.controller.ResourceNotFoundException;
 import io.commitr.validator.ValidationGroups.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

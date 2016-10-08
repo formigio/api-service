@@ -2,12 +2,12 @@ package io.commitr.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -23,9 +23,9 @@ public class Team {
     @JsonIgnore
     private Long id;
 
-    @Max(value = 255)
+    @Length(max = 255)
     @NotNull
-    private String name;
+    private String title;
 
     @NotNull
     private UUID uuid;
@@ -38,6 +38,14 @@ public class Team {
         if (null==this.uuid) {
             this.uuid = UUID.randomUUID();
         }
+    }
+
+    public static Team of(String name, UUID uuid, UUID identity) {
+        Team t = new Team();
+        t.setTitle(name);
+        t.setUuid(uuid);
+        t.setIdentity(identity);
+        return t;
     }
 
 }
