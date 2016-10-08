@@ -1,5 +1,6 @@
 package io.commitr.invite;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ public class InviteController {
     @Autowired
     InviteService inviteService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public Invite createInvite(@RequestBody Invite invite) {
         Invite i = inviteService.saveInvite(invite);
@@ -29,7 +30,7 @@ public class InviteController {
         return i;
     }
 
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+    @GetMapping("/{uuid}")
     @ResponseStatus(value = HttpStatus.OK)
     public Invite getInviteByUuid(@PathVariable UUID uuid) {
         Invite i = inviteService.getInvite(uuid);
@@ -41,7 +42,7 @@ public class InviteController {
         return i;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
     public Invite getInviteByGoal(@RequestParam("goal") UUID uuid) {
         Invite i = inviteService.getInviteByGoal(uuid);
@@ -53,7 +54,7 @@ public class InviteController {
         return i;
     }
 
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{uuid}")
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteInvite(@PathVariable UUID uuid) {
         inviteService.deleteInvite(uuid);

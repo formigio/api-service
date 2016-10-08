@@ -15,14 +15,14 @@ public class GoalController {
 	@Autowired
 	GoalService goalService;
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Goal setGoal(@RequestBody Goal goal){
 		return goalService.createGoal(goal);
 	}
 
+	@GetMapping("/{uuid}")
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value="/{uuid}", method=RequestMethod.GET)
 	public Goal getGoal(@PathVariable UUID uuid) {
 		return goalService.getGoal(uuid);
 	}
