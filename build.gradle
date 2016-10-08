@@ -1,6 +1,8 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.0.RELEASE'
+		applicationName = 'formigio-service'
+		applicationVersion = '0.0.4-SNAPSHOT'
 	}
 	repositories {
 		mavenCentral()
@@ -17,8 +19,14 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'commitr-service'
-	version = '0.0.4-SNAPSHOT'
+	jar {
+		manifest {
+			attributes("Implementation-Title": applicationName,
+					"Implementation-Version": applicationVersion)
+		}
+	}
+	baseName = applicationName
+	version = applicationVersion
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
