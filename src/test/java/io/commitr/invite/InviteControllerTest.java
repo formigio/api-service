@@ -37,20 +37,20 @@ public class InviteControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        given(service.saveInvite(DTOUtils.createInvite(null, DTOUtils.VALID_UUID)))
-                .willReturn(DTOUtils.createInvite(DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
+        given(service.saveInvite(Invite.of(null, DTOUtils.VALID_UUID)))
+                .willReturn(Invite.of(DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
 
-        given(service.saveInvite(DTOUtils.createInvite(null, DTOUtils.NON_VALID_UUID)))
+        given(service.saveInvite(Invite.of(null, DTOUtils.NON_VALID_UUID)))
                 .willReturn(null);
 
         given(service.getInvite(DTOUtils.VALID_UUID))
-                .willReturn(DTOUtils.createInvite(DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
+                .willReturn(Invite.of(DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
 
         given(service.getInvite(DTOUtils.NON_VALID_UUID))
                 .willReturn(null);
 
         given(service.getInviteByGoal(DTOUtils.VALID_UUID))
-                .willReturn(DTOUtils.createInvite(DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
+                .willReturn(Invite.of(DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
 
         given(service.getInviteByGoal(DTOUtils.NON_VALID_UUID))
                 .willReturn(null);

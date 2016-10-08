@@ -1,8 +1,11 @@
 package io.commitr.task;
 
-import io.commitr.controller.ResourceNotFoundException;
+import io.commitr.annotation.ValidGoal;
+import io.commitr.validator.ValidationGroups.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,14 +16,15 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(value = "/task")
+@Validated
 public class TaskController {
 
     @Autowired
     TaskService taskService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createTask(@RequestBody Task dto) {
+    public Task createTask(@Validated(Post.class) @RequestBody Task dto) {
 
         Task t = taskService.saveTask(dto);
 
@@ -31,7 +35,7 @@ public class TaskController {
         return t;
     }
 
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+    @GetMapping("/{uuid}")
     public Task getTask(@PathVariable UUID uuid) {
         Task t = taskService.getTask(uuid);
 
@@ -42,8 +46,8 @@ public class TaskController {
         return t;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Task> getTasksByGoal(@RequestParam(value = "goal") UUID uuid) {
+    @GetMapping
+    public List<Task> getTasksByGoal(@Validated @ValidGoal @RequestParam(value = "goal") UUID uuid) {
         List<Task> tasks = taskService.getTaskByGoal(uuid);
 
         if(null==tasks) {
@@ -53,8 +57,8 @@ public class TaskController {
         return tasks;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public void updateTask(@RequestBody Task dto) {
+    @PutMapping
+    public void updateTask(@Validated @RequestBody Task dto) {
         Task t = taskService.updateTask(dto);
 
         if (null==t) {
@@ -62,8 +66,11 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{uuid}")
     public void deleteTask(@PathVariable UUID uuid) {
-        taskService.delete(uuid);
+        Task t = taskService.getTask(uuid);
+        if(null != t) {
+            taskService.delete(t);
+        }
     }
 }

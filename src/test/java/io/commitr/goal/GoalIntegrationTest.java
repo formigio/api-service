@@ -1,5 +1,6 @@
 package io.commitr.goal;
 
+import io.commitr.team.Team;
 import io.commitr.util.DTOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class GoalIntegrationTest {
 
     @Test
     public void createGoalWithoutUUID() {
-        Goal goal = DTOUtils.createGoal(null, "first goal");
+        Goal goal = Goal.of(null, "first goal", DTOUtils.VALID_UUID);
         Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
 
         assertThat(response.getUuid()).isNotNull();
@@ -39,7 +40,7 @@ public class GoalIntegrationTest {
 
     @Test
     public void createGoalWithUUID() {
-        Goal goal = DTOUtils.createGoal(DTOUtils.VALID_UUID, "first goal");
+        Goal goal = Goal.of(DTOUtils.VALID_UUID, "first goal", DTOUtils.VALID_UUID);
         Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
 
         assertThat(response.getUuid()).isEqualByComparingTo(DTOUtils.VALID_UUID);
@@ -65,7 +66,7 @@ public class GoalIntegrationTest {
 
     @Test
     public void getGoal() throws Exception {
-        Goal goal = DTOUtils.createGoal(null, "first goal");
+        Goal goal = Goal.of(null, "first goal", DTOUtils.VALID_UUID);
         Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
 
         goal = this.restTemplate.getForObject(format("/goal/%s", response.getUuid().toString()),Goal.class);
@@ -81,4 +82,5 @@ public class GoalIntegrationTest {
         assertThat(response.getStatusCodeValue()).isEqualTo(404);
 
     }
+
 }

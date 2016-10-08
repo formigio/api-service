@@ -1,6 +1,8 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.0.RELEASE'
+		applicationName = 'formigio-service'
+		applicationVersion = '0.0.4-SNAPSHOT'
 	}
 	repositories {
 		mavenCentral()
@@ -17,8 +19,14 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'commitr-service'
-	version = '0.0.3-SNAPSHOT'
+	jar {
+		manifest {
+			attributes("Implementation-Title": applicationName,
+					"Implementation-Version": applicationVersion)
+		}
+	}
+	baseName = applicationName
+	version = applicationVersion
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -36,6 +44,8 @@ dependencies {
 	compile('org.projectlombok:lombok')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('com.google.code.gson:gson:2.7')
+	compile('io.springfox:springfox-swagger2:2.4.0')
+	compile('io.springfox:springfox-swagger-ui:2.4.0')
 	runtime('org.hsqldb:hsqldb')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

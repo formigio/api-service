@@ -27,9 +27,9 @@ public class InviteRepositoryTest {
 
     @Test
     public void testSaveInvite() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite invite = repository.save(DTOUtils.createInvite(null, g.getUuid()));
+        Invite invite = repository.save(Invite.of(null, g.getUuid()));
 
         assertThat(invite.getId()).isGreaterThan(0L);
         assertThat(invite.getUuid()).isNotNull();
@@ -38,9 +38,9 @@ public class InviteRepositoryTest {
 
     @Test
     public void testFindInviteByUuid() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = DTOUtils.createInvite(null, g.getUuid());
+        Invite i = Invite.of(null, g.getUuid());
 
         repository.save(i);
 
@@ -52,9 +52,9 @@ public class InviteRepositoryTest {
 
     @Test
     public void testFindInviteByGoal() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = DTOUtils.createInvite(null, g.getUuid());
+        Invite i = Invite.of(null, g.getUuid());
 
         repository.save(i);
 
@@ -66,9 +66,9 @@ public class InviteRepositoryTest {
 
     @Test
     public void testFindGoalByInvite() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = DTOUtils.createInvite(null, g.getUuid());
+        Invite i = Invite.of(null, g.getUuid());
 
         repository.save(i);
 
@@ -83,9 +83,9 @@ public class InviteRepositoryTest {
 
     @Test
     public void testDelete() throws Exception {
-        Goal g = goalRepository.save(DTOUtils.createGoal(null, "Test Goal"));
+        Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = DTOUtils.createInvite(null, g.getUuid());
+        Invite i = Invite.of(null, g.getUuid());
 
         repository.saveAndFlush(i);
 

@@ -37,7 +37,7 @@ public class GoalControllerTest {
         goal.setTitle("Goal Test");
 
         given(this.service.createGoal(goal))
-                .willReturn(DTOUtils.createGoal(DTOUtils.VALID_UUID, "Goal Test"));
+                .willReturn(Goal.of(DTOUtils.VALID_UUID, "Goal Test", DTOUtils.VALID_UUID));
         this.mvc.perform(post("/goal")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JsonUtils.convertObject(goal)))
@@ -50,7 +50,7 @@ public class GoalControllerTest {
     @Test
     public void getGoalWithValidUUID() throws Exception {
         given(this.service.getGoal(DTOUtils.VALID_UUID))
-                .willReturn(DTOUtils.createGoal(DTOUtils.VALID_UUID, "Goal Test"));
+                .willReturn(Goal.of(DTOUtils.VALID_UUID, "Goal Test", DTOUtils.VALID_UUID));
         this.mvc.perform(get("/goal/" + DTOUtils.VALID_UUID)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())

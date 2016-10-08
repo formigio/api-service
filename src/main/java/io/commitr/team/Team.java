@@ -1,9 +1,8 @@
-package io.commitr.invite;
+package io.commitr.team;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.commitr.annotation.ValidGoal;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,23 +12,26 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
- * Created by peter on 9/24/16.
+ * Created by peter on 10/1/16.
  */
 @Data
 @Entity
-public class Invite {
+public class Team {
 
     @Id
     @GeneratedValue
     @JsonIgnore
     private Long id;
 
-    @JsonProperty(value = "guid")
+    @Length(max = 255)
+    @NotNull
+    private String title;
+
     @NotNull
     private UUID uuid;
 
     @NotNull
-    private UUID goal;
+    private UUID identity;
 
     @PrePersist
     void prePersist() {
@@ -38,11 +40,12 @@ public class Invite {
         }
     }
 
-    public static Invite of(UUID uuid, UUID goal) {
-        Invite i = new Invite();
-        i.setUuid(uuid);
-        i.setGoal(goal);
-        return i;
+    public static Team of(String name, UUID uuid, UUID identity) {
+        Team t = new Team();
+        t.setTitle(name);
+        t.setUuid(uuid);
+        t.setIdentity(identity);
+        return t;
     }
 
 }
