@@ -11,6 +11,8 @@ spring:
 ---
 spring:
   profiles: prod
+  datasource:
+    url: jdbc:hsqldb:file:/var/hsqldb/data/formigio-db
   jpa:
     database: hsql
     hibernate:
