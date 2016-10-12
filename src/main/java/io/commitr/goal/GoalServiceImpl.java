@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,5 +30,10 @@ public class GoalServiceImpl implements GoalService {
         }
 
         return g;
+    }
+
+    @Override
+    public List<Goal> getGoalsByTask(UUID uuid) {
+        return repository.findByTeam(uuid);
     }
 }

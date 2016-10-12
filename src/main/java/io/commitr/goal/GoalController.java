@@ -1,11 +1,14 @@
 package io.commitr.goal;
 
+import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.Validator;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -25,5 +28,16 @@ public class GoalController {
 	@ResponseStatus(HttpStatus.OK)
 	public Goal getGoal(@PathVariable UUID uuid) {
 		return goalService.getGoal(uuid);
+	}
+
+	@GetMapping("?team={uuid}")
+	public List<Goal> getGoalByTeam(@RequestParam UUID uuid) {
+		List<Goal> goals = goalService.getGoalsByTask(uuid);
+
+		if (Objects.isNull(goals) || goals.size() == 0) {
+			throw new ResourceNotFoundException();
+		}
+
+		return goals;
 	}
 }
