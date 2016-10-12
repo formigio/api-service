@@ -68,7 +68,7 @@ public class TeamIntegrationTest {
 
         ResponseEntity<Team> goalResponse = restTemplate.exchange(new URI("http://localhost:" + port + "/team"), HttpMethod.POST, request, Team.class);
 
-        assertThat(goalResponse.getStatusCodeValue()).isBetween(400, 499);
+        assertThat(goalResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -87,23 +87,24 @@ public class TeamIntegrationTest {
 
         ResponseEntity<Team> response = this.restTemplate.getForEntity(format("/team/%s", DTOUtils.NON_VALID_UUID_STRING), Team.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(404);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
 
     @Test
     public void getTeamByValidIdentity() throws Exception {
-        this.restTemplate.postForObject("/team",
+        Team t1 = this.restTemplate.postForObject("/team",
                 Team.of("Test Team", null, VALID_IDENTITY),
                 Team.class);
 
-        this.restTemplate.postForObject("/team",
+        Team t2 = this.restTemplate.postForObject("/team",
                 Team.of("Test Team", null, VALID_IDENTITY),
                 Team.class);
 
         Team[] teams = this.restTemplate.getForObject(format("/team?identity=%s", VALID_IDENTITY.toString()), Team[].class);
 
         assertThat(teams.length).isEqualTo(2);
+        assertThat(teams).containsExactlyInAnyOrder(t1, t2);
 
     }
 }

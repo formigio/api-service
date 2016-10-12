@@ -30,11 +30,11 @@ public class GoalController {
 		return goalService.getGoal(uuid);
 	}
 
-	@GetMapping("?team={uuid}")
-	public List<Goal> getGoalByTeam(@RequestParam UUID uuid) {
-		List<Goal> goals = goalService.getGoalsByTask(uuid);
+	@GetMapping
+	public List<Goal> getGoalByTeam(@RequestParam("team") UUID uuid) {
+		List<Goal> goals = goalService.getGoalsByTeam(uuid);
 
-		if (Objects.isNull(goals) || goals.size() == 0) {
+		if (goals.size() == 0) {
 			throw new ResourceNotFoundException();
 		}
 

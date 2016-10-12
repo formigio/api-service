@@ -12,6 +12,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
+import java.util.UUID;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,8 +32,9 @@ public class GoalIntegrationTest {
 
     @Test
     public void createGoalWithoutUUID() {
-        Goal goal = Goal.of(null, "first goal", DTOUtils.VALID_UUID);
-        Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
+        Goal response = this.restTemplate.postForObject("/goal",
+                Goal.of(null, "first goal", DTOUtils.VALID_UUID),
+                Goal.class);
 
         assertThat(response.getUuid()).isNotNull();
 
@@ -40,8 +42,9 @@ public class GoalIntegrationTest {
 
     @Test
     public void createGoalWithUUID() {
-        Goal goal = Goal.of(DTOUtils.VALID_UUID, "first goal", DTOUtils.VALID_UUID);
-        Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
+        Goal response = this.restTemplate.postForObject("/goal",
+                Goal.of(DTOUtils.VALID_UUID, "first goal", DTOUtils.VALID_UUID),
+                Goal.class);
 
         assertThat(response.getUuid()).isEqualByComparingTo(DTOUtils.VALID_UUID);
     }
@@ -61,15 +64,16 @@ public class GoalIntegrationTest {
 
         ResponseEntity<Goal> goalResponse = restTemplate.exchange(new URI("http://localhost:"+ port +"/goal"), HttpMethod.POST, request, Goal.class);
 
-        assertThat(goalResponse.getStatusCodeValue()).isBetween(400, 499);
+        assertThat(goalResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
     public void getGoal() throws Exception {
-        Goal goal = Goal.of(null, "first goal", DTOUtils.VALID_UUID);
-        Goal response = this.restTemplate.postForObject("/goal", goal, Goal.class);
+        Goal response = this.restTemplate.postForObject("/goal",
+                Goal.of(null, "first goal", DTOUtils.VALID_UUID),
+                Goal.class);
 
-        goal = this.restTemplate.getForObject(format("/goal/%s", response.getUuid().toString()),Goal.class);
+        Goal goal = this.restTemplate.getForObject(format("/goal/%s", response.getUuid().toString()),Goal.class);
 
         assertThat(goal.getUuid()).isEqualByComparingTo(response.getUuid());
     }
@@ -79,8 +83,37 @@ public class GoalIntegrationTest {
 
         ResponseEntity<Goal> response = this.restTemplate.getForEntity(format("/goal/%s", DTOUtils.NON_VALID_UUID_STRING),Goal.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(404);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
 
+    @Test
+    public void getGoalsByValidTeam() throws Exception {
+        UUID team = UUID.randomUUID();
+
+        Goal g1 = this.restTemplate.postForObject("/goal",
+                Goal.of(null, "first goal", team),
+                Goal.class);
+
+
+        Goal g2 = this.restTemplate.postForObject("/goal",
+                Goal.of(null, "second goal", team),
+                Goal.class);
+
+        ResponseEntity<Goal[]> response = this.restTemplate.getForEntity(format("/goal?team=%s", team.toString()), Goal[].class);
+
+        Goal[] goals = response.getBody();
+
+        assertThat(goals.length).isEqualTo(2);
+        assertThat(goals).containsExactlyInAnyOrder(g1, g2);
+
+    }
+
+    @Test
+    public void getGoalsByNonValidTeam() throws Exception {
+        ResponseEntity<Goal> response = this.restTemplate.getForEntity(format("/goal?team=%s", DTOUtils.NON_VALID_UUID_STRING), Goal.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+    }
 }

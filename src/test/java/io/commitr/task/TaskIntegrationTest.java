@@ -61,7 +61,7 @@ public class TaskIntegrationTest {
                 new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getStatusCodeValue()).isEqualTo(201);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().getUuid()).isNotNull();
         assertThat(response.getBody().getGoal()).isEqualTo(validGoal.getUuid());
     }
@@ -72,7 +72,7 @@ public class TaskIntegrationTest {
 
         ResponseEntity<Task> response = postTaskWithResponseEntity(task);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(404);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         //TODO: Need to also check that a valid error message is coming back with the response
     }
 
@@ -92,7 +92,7 @@ public class TaskIntegrationTest {
         ResponseEntity<Task> response = this.restTemplate.exchange(
                 new URI("http://localhost:"+ port +"/task"), HttpMethod.POST, request, Task.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(400);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         //TODO: Need to check that message is coming back and it is the one we are expecting
     }
 
@@ -119,7 +119,7 @@ public class TaskIntegrationTest {
         ResponseEntity<Task> responseWithUpdate = this.restTemplate.getForEntity(
                 new URI(format("http://localhost:%d/task/%s", port, response.getBody().getUuid().toString())), Task.class);
 
-        assertThat(responseWithUpdate.getStatusCodeValue()).isEqualTo(200);
+        assertThat(responseWithUpdate.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
@@ -140,7 +140,7 @@ public class TaskIntegrationTest {
         ResponseEntity<Task> response = this.restTemplate.exchange(
                 new URI("http://localhost:"+ port +"/task"), HttpMethod.PUT, request, Task.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(400);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         //TODO: Need to check that message is coming back and it is the one we are expecting
     }
 
@@ -160,7 +160,7 @@ public class TaskIntegrationTest {
         ResponseEntity<Task> response = this.restTemplate.exchange(
                 new URI("http://localhost:"+ port +"/task"), HttpMethod.PUT, request, Task.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(400);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         //TODO: Need to check that message is coming back and it is the one we are expecting
     }
 
@@ -179,14 +179,14 @@ public class TaskIntegrationTest {
         ResponseEntity<Task> response = this.restTemplate.postForEntity(
                 new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(201);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
         this.restTemplate.delete(new URI(format("http://localhost:%d/task/%s",port,response.getBody().getUuid().toString())));
 
         ResponseEntity<Task> responseAfterDelete = this.restTemplate.getForEntity(
                 new URI(format("http://localhost:%d/task/%s", port,response.getBody().getUuid().toString())), Task.class);
 
-        assertThat(responseAfterDelete.getStatusCodeValue()).isEqualTo(404);
+        assertThat(responseAfterDelete.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test
@@ -196,7 +196,7 @@ public class TaskIntegrationTest {
         HttpEntity<String> entity = new HttpEntity<String>("", headers);
         ResponseEntity<String> response = this.restTemplate.exchange(format("/task/%s", DTOUtils.NON_VALID_UUID_STRING),
                 HttpMethod.DELETE, entity, String.class);
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
 
@@ -212,12 +212,12 @@ public class TaskIntegrationTest {
         task.setGoal(validGoal.getUuid());
         task.setCompleted(true);
 
-        this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
+        Task t1 = this.restTemplate.postForObject(new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
         task.setUuid(null);
         task.setTitle("Create a task with a valid Goal - Task 2");
 
-        this.restTemplate.postForEntity(new URI(format("http://localhost:%d/task", port)), task, Task.class);
+        Task t2 = this.restTemplate.postForObject(new URI(format("http://localhost:%d/task", port)), task, Task.class);
 
         ResponseEntity<Task[]> response = this.restTemplate.getForEntity(
                 format("/task?goal=%s", validGoal.getUuid().toString()), Task[].class);
@@ -225,11 +225,13 @@ public class TaskIntegrationTest {
         Task[] tasks = response.getBody();
 
         assertThat(tasks.length).isEqualTo(2);
+        assertThat(tasks).containsExactlyInAnyOrder(t1, t2);
     }
 
     private Task postTestTask() {
         Goal validGoal = this.restTemplate.postForObject("/goal",
-                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID), Goal.class);
+                Goal.of(null, "Create Task with Valid Goal", DTOUtils.VALID_UUID),
+                Goal.class);
 
         Task task = Task.of(null,
                 "Test Task",

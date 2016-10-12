@@ -8,5 +8,5 @@ public interface GoalService {
 	
 	public Goal getGoal(UUID uuid);
 
-	public List<Goal> getGoalsByTask(UUID uuid);
+	public List<Goal> getGoalsByTeam(UUID uuid);
 }

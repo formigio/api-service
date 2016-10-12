@@ -33,7 +33,7 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public List<Goal> getGoalsByTask(UUID uuid) {
+    public List<Goal> getGoalsByTeam(UUID uuid) {
         return repository.findByTeam(uuid);
     }
 }
