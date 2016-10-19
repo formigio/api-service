@@ -8,23 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @SpringBootApplication
-@EnableOAuth2Sso
-public class CommitrServiceApplication extends WebSecurityConfigurerAdapter{
+public class CommitrServiceApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(CommitrServiceApplication.class, args);
-	}
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.antMatcher("/**")
-		.authorizeRequests()
-			.antMatchers("/", "/swagger-resources**", "/v2/api-docs**", "/login**", "/webjars/**")
-			.permitAll()
-		.anyRequest()
-			.authenticated()
-			.and().logout().logoutSuccessUrl("/").permitAll()
-				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 }
