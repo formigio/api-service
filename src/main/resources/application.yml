@@ -8,6 +8,19 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+security:
+  oauth2:
+    client:
+      access-token-uri: https://www.googleapis.com/oauth2/v4/token
+      user-authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+      scope: https://www.googleapis.com/auth/userinfo.profile
+      client-id:
+      client-secret:
+    resource:
+      user-info-uri: https://www.googleapis.com/oauth2/v1/userinfo
+server:
+  session:
+    persistent: false
 ---
 spring:
   profiles: prod
