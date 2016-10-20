@@ -27,7 +27,8 @@ public class DocumentationConfiguration {
                         regex("/goal/*"),
                         regex("/invite/*"),
                         regex("/task/*"),
-                        regex("/team/*")))
+                        regex("/team/*"),
+                        regex("/me/*")))
                 .build();
     }
 }

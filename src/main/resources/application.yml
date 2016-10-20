@@ -13,13 +13,16 @@ google:
     access-token-uri: https://www.googleapis.com/oauth2/v4/token
     user-authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
     scope: https://www.googleapis.com/auth/userinfo.profile
-    client-id: 158401991784-9gglr73fn99o0bi4mk8a969pjm6ihaeb.apps.googleusercontent.com
-    client-secret: 4wWtC8Zd-N60f8ll_QTYAIrY
+    client-id:
+    client-secret:
   resource:
     user-info-uri: https://www.googleapis.com/oauth2/v1/userinfo
 server:
   session:
     persistent: false
+logging:
+  level:
+    org.springframework.security: DEBUG
 ---
 spring:
   profiles: prod
