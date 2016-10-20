@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -49,6 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(GoalController.class)
+@WithMockUser
 public class GoalControllerTest {
 
 
@@ -56,8 +58,6 @@ public class GoalControllerTest {
     private final Goal GOAL_REQUEST = Goal.of(null, "Goal Test", DTOUtils.VALID_UUID);
 
     @Autowired
-    private WebApplicationContext context;
-
     private MockMvc mvc;
 
     @MockBean
@@ -65,10 +65,6 @@ public class GoalControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(springSecurity())
-                .build();
 
         given(this.service.createGoal(GOAL_REQUEST))
                 .willReturn(GOAL_RESPONSE);
