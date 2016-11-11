@@ -8,6 +8,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+basic-auth:
+  username: basic
+  password: HHH000397
 ---
 spring:
   profiles: prod
