@@ -20,4 +20,7 @@ spring:
     database: hsql
     hibernate:
       ddl-auto: update
-    show-sql: false  
+    show-sql: false
+basic-auth:
+  username:
+  password:
