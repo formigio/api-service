@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * Created by peter on 11/11/16.
@@ -32,6 +32,8 @@ public class WebConfiguration {
 
         private final Logger logger = LoggerFactory.getLogger(WebConfiguration.class);
 
+        private final Pattern identityPattern = Pattern.compile("^\\w+-\\w+-\\d+:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
+
         @Override
         public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -50,7 +52,7 @@ public class WebConfiguration {
 
             String identityHeader = req.getHeader("x-identity-id");
 
-            if(!Objects.isNull(identityHeader)) {
+            if(!Objects.isNull(identityHeader) && identityPattern.matcher(identityHeader).matches()) {
                 logger.info(identityHeader);
                 chain.doFilter(request, response);
             } else {
