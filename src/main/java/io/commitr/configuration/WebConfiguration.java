@@ -30,13 +30,18 @@ public class WebConfiguration {
         @Autowired
         private MessageSource messageSource;
 
+        @Autowired
+        private IdentityConfiguration identityConfiguration;
+
         private final Logger logger = LoggerFactory.getLogger(WebConfiguration.class);
 
-        private final Pattern identityPattern = Pattern.compile("^\\w+-\\w+-\\d+:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
+        private Pattern identityPattern;
 
         @Override
         public void init(FilterConfig filterConfig) throws ServletException {
-
+            if(Objects.isNull(identityPattern)){
+                identityPattern = Pattern.compile(identityConfiguration.getIdentity());
+            }
         }
 
         @Override

@@ -49,7 +49,10 @@ public class TeamController {
     }
 
     @GetMapping
-    public List<Team> getTeamByIdentity(@RequestParam("identity") UUID uuid) {
+    public List<Team> getTeamByIdentity(@RequestHeader("x-identity-id") String identity) {
+
+        UUID uuid = UUID.fromString(identity.split(":")[1]);
+
         List<Team> teams = service.getTeamByIdentity(uuid);
 
         if(Objects.isNull(teams) || teams.size() == 0) {
