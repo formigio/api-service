@@ -1,11 +1,14 @@
 package io.commitr.configuration;
 
+import io.commitr.identity.IdentityConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +21,10 @@ import java.util.regex.Pattern;
  * Created by peter on 11/11/16.
  */
 @Configuration
-public class WebConfiguration {
+public class WebConfiguration extends WebMvcConfigurerAdapter{
+
+    @Autowired
+    IdentityConfiguration configuration;
 
     @Bean
     public Filter identityIdFilter() {
@@ -69,5 +75,10 @@ public class WebConfiguration {
         public void destroy() {
 
         }
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new IdentityConverter(configuration));
     }
 }
