@@ -12,8 +12,8 @@ if [ -z "$OPENJDK_IMAGE" ]
     then
     echo "You need to pull down the openjdk docker image for this build"
     echo "Pull down now? (y/n)"
-    READ PULLJDK
-    if [ "$PULLJDK" == "y" ]
+    read PULLJDK
+    if [ "$PULLJDK" = "y" ] || [ "$PULLJDK" = "Y" ]
         then
         docker pull openjdk
     else
