@@ -8,6 +8,12 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+authentication:
+  provider: cognito
+  identity: ^\w+-\w+-\d+:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}
+  basic:
+    username: basic
+    password: HHH000397
 ---
 spring:
   profiles: prod
@@ -17,4 +23,10 @@ spring:
     database: hsql
     hibernate:
       ddl-auto: update
-    show-sql: false  
+    show-sql: false
+authentication:
+  provider: cognito
+  identity: ^\w+-\w+-\d+:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}
+  basic:
+    username:
+    password:
