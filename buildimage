@@ -21,6 +21,14 @@ if [ -z "$OPENJDK_IMAGE" ]
     fi
 fi
 
+# TESTINGPARAM=""
+# echo "Run without tests? (y/n)"
+# read SKIPTESTS
+# if [ "$SKIPTESTS" = "y" ]
+#     then
+#     TESTINGPARAM="-x test"
+# fi
+
 echo "Building the Java App Jar file... "
 
 docker run -v $(pwd):/var/service -w="/var/service" openjdk /var/service/gradlew clean build
