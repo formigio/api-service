@@ -18,11 +18,6 @@ authentication:
   basic:
     username: basic
     password: HHH000397
----
-spring:
-  profiles: prod
-  jpa:
-    database: hsql
-    hibernate:
-      ddl-auto: update
-    show-sql: false
+headers:
+  name: x-identity-id
+  value: region-id-1:00000000-0000-1000-a000-000000000000
