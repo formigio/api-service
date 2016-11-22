@@ -1,5 +1,7 @@
 package io.commitr.goal;
 
+import io.commitr.configuration.IdentityConfiguration;
+import io.commitr.configuration.WebConfiguration;
 import io.commitr.util.DTOUtils;
 import io.commitr.util.JsonUtils;
 import org.junit.Before;
@@ -8,10 +10,18 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.servlet.*;
+import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(GoalController.class)
+@WithMockUser
 public class GoalControllerTest {
 
 
@@ -49,6 +60,8 @@ public class GoalControllerTest {
                 .willReturn(Stream.of(GOAL_RESPONSE, GOAL_RESPONSE)
                         .collect(Collectors.toList()));
 
+
+
     }
 
     @Test
@@ -56,6 +69,7 @@ public class GoalControllerTest {
 
         this.mvc.perform(post("/goal")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header("x-identity-id", "region-id-1:00000000-0000-1000-a000-000000000000")
                 .content(JsonUtils.convertObject(GOAL_REQUEST)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))

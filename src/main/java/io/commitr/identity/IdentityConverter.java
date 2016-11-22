@@ -13,19 +13,15 @@ import java.util.regex.Pattern;
  */
 public class IdentityConverter implements Converter<String, Identity> {
 
-    IdentityConfiguration configuration;
-
-    public IdentityConverter(IdentityConfiguration configuration) {
-        this.configuration = configuration;
-    }
+    private final Pattern identityPattern = Pattern.compile("^\\w+-\\w+-\\d+:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");
 
     @Override
     public Identity convert(String source) {
 
         Identity convertedIdentity = null;
 
-        if(Pattern.matches(configuration.getIdentity(), source)){
-            convertedIdentity = Identity.of(UUID.fromString(source.split(":")[1]), configuration.getProvider());
+        if(identityPattern.matcher(source).matches()){
+            convertedIdentity = Identity.of(UUID.fromString(source.split(":")[1]), "cognito");
         }
 
         return convertedIdentity;

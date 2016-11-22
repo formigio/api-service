@@ -1,6 +1,7 @@
 package io.commitr.task;
 
 import io.commitr.goal.Goal;
+import io.commitr.util.AbstractIntegrationTest;
 import io.commitr.util.DTOUtils;
 import io.commitr.util.JsonUtils;
 import org.junit.Test;
@@ -21,15 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by peter on 9/13/16.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TaskIntegrationTest {
-
-    @Autowired
-    TestRestTemplate restTemplate;
-
-    @LocalServerPort
-    int port;
+public class TaskIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     public void getTask() throws Exception {

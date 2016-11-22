@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -29,9 +30,7 @@ import java.util.stream.Stream;
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    IdentityConfiguration configuration;
-
+    @Profile("{local, prod}")
     @Bean
     public Filter identityIdFilter() {
         return new IdentityIdFilter();
@@ -97,6 +96,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new IdentityConverter(configuration));
+        registry.addConverter(new IdentityConverter());
     }
 }

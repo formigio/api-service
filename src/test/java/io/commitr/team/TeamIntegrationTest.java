@@ -1,9 +1,12 @@
 package io.commitr.team;
 
+import io.commitr.util.AbstractIntegrationTest;
 import io.commitr.util.DTOUtils;
+import io.commitr.util.JsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -21,17 +24,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by peter on 9/12/16.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TeamIntegrationTest {
+public class TeamIntegrationTest extends AbstractIntegrationTest {
 
     private final UUID VALID_IDENTITY = UUID.fromString(DTOUtils.VALID_UUID_STRING.replace('a','f'));
 
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @LocalServerPort
-    int port;
+    @Value("${headers.value}")
+    private String headerIdentity;
 
     @Test
     public void createTeamWithoutUUID() {
@@ -92,16 +90,35 @@ public class TeamIntegrationTest {
     }
 
     @Test
+    public void getTeamWithInitialTeamGet() throws Exception {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        headers.set("x-identity-id", "region-us-1:" + DTOUtils.VALID_UUID_STRING);
+
+        HttpEntity<String> request = new HttpEntity<String>(
+                new String(JsonUtils.convertObject(Team.of("test first header", null, null))), headers);
+
+        ResponseEntity<Team[]> team = restTemplate.exchange(new URI("http://localhost:" + port + "/team"), HttpMethod.GET, request, Team[].class);
+
+        assertThat(team.getBody().length).isEqualTo(1);
+        assertThat(team.getBody()[0].getIdentity()).isEqualTo(DTOUtils.VALID_UUID);
+    }
+
+    @Test
     public void getTeamByValidIdentity() throws Exception {
+
+        UUID headerUUID = UUID.fromString(headerIdentity.split(":")[1]);
+
         Team t1 = this.restTemplate.postForObject("/team",
-                Team.of("Test Team", null, VALID_IDENTITY),
+                Team.of("Test Team", null, headerUUID),
                 Team.class);
 
         Team t2 = this.restTemplate.postForObject("/team",
-                Team.of("Test Team", null, VALID_IDENTITY),
+                Team.of("Test Team", null, headerUUID),
                 Team.class);
 
-        Team[] teams = this.restTemplate.getForObject(format("/team?identity=%s", VALID_IDENTITY.toString()), Team[].class);
+        Team[] teams = this.restTemplate.getForObject("/team", Team[].class);
 
         assertThat(teams.length).isEqualTo(2);
         assertThat(teams).containsExactlyInAnyOrder(t1, t2);

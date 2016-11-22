@@ -1,6 +1,7 @@
 package io.commitr.invite;
 
 import io.commitr.goal.Goal;
+import io.commitr.util.AbstractIntegrationTest;
 import io.commitr.util.DTOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,15 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by Peter Douglas on 9/29/2016.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class InviteIntegrationTest {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @LocalServerPort
-    private int port;
+public class InviteIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     public void createInviteWithValidGoal() throws Exception {
