@@ -68,10 +68,17 @@ task wrapper(type: Wrapper) {
         gradleVersion = '2.10'
 }
 
+docker {
+	baseImage "openjdk"
+}
+
 task buildDocker(type: Docker, dependsOn: build) {
 	push = false
 	applicationName = jar.baseName
-	dockerfile = file('Dockerfile')
+	exposePort(8080)
+	addFile(jar.archivePath, 'formigio-service.jar')
+	runCommand('sh -c \'touch /formigio-service.jar\'')
+	entryPoint(["java","-Dspring.profiles.active=local","-jar","/formigio-service.jar"])
 	doFirst {
 		copy {
 			from jar
