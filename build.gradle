@@ -10,6 +10,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 
@@ -17,6 +18,9 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'docker'
+
+group = 'formigio'
 
 jar {
 	jar {
@@ -62,4 +66,16 @@ eclipse {
 
 task wrapper(type: Wrapper) {
         gradleVersion = '2.10'
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+	push = false
+	applicationName = jar.baseName
+	dockerfile = file('Dockerfile')
+	doFirst {
+		copy {
+			from jar
+			into stageDir
+		}
+	}
 }
