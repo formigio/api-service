@@ -8,7 +8,7 @@ import java.util.UUID;
  */
 public interface TeamService {
     public Team saveTeam(Team team);
-    public Team getTeam(UUID uuid);
+    public List<Team> getTeam(UUID uuid);
     public Team updateTeam(Team team);
     public List<Team> getTeamByIdentity(UUID uuid);
     public void deleteTeam(Team team);
