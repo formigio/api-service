@@ -21,7 +21,6 @@ public class Goal {
 	private Long id;
 
 	@NotNull
-	@JsonProperty("guid")
 	private UUID uuid;
 
 	@Length(max = 255)
