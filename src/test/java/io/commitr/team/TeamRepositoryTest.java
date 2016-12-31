@@ -46,17 +46,17 @@ public class TeamRepositoryTest {
                         DTOUtils.VALID_UUID,
                         DTOUtils.VALID_UUID));
 
-        Team team = repository.findByUuid(DTOUtils.VALID_UUID);
+        List<Team> team = repository.findByUuid(DTOUtils.VALID_UUID);
 
-        assertThat(team).isNotNull();
-        assertThat(team.getTitle()).isEqualTo("Team To Find");
+        assertThat(team).isNotEmpty();
+        assertThat(team.get(0).getTitle()).isEqualTo("Team To Find");
     }
 
     @Test
     public void findTeamByNonValidUuid() throws Exception {
-        Team team = repository.findByUuid(DTOUtils.NON_VALID_UUID);
+        List<Team> team = repository.findByUuid(DTOUtils.NON_VALID_UUID);
 
-        assertThat(team).isNull();
+        assertThat(team).isEmpty();
     }
 
     @Test

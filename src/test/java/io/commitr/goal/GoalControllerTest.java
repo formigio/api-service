@@ -73,7 +73,7 @@ public class GoalControllerTest {
                 .content(JsonUtils.convertObject(GOAL_REQUEST)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.title", containsString("Goal Test")))
                 .andExpect(jsonPath("$.team", containsString(DTOUtils.VALID_UUID_STRING)));
     }
@@ -85,7 +85,7 @@ public class GoalControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.title", containsString("Goal Test")));
     }
 
@@ -112,7 +112,8 @@ public class GoalControllerTest {
     public void getGoalByNonValidTeam() throws Exception {
         this.mvc.perform(get("/goal?team=" + DTOUtils.NON_VALID_UUID_STRING)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isNotFound());
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(0)));
 
     }
 

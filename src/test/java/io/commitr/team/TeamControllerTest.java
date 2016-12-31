@@ -50,7 +50,7 @@ public class TeamControllerTest {
         given(this.service.saveTeam(TEAM))
                 .willReturn(TEAM);
         given(this.service.getTeam(DTOUtils.VALID_UUID))
-                .willReturn(TEAM);
+                .willReturn(Stream.of(TEAM).collect(Collectors.toList()));
         given(this.service.getTeam(DTOUtils.NON_VALID_UUID))
                 .willReturn(null);
         given(this.service.getTeamByIdentity(DTOUtils.VALID_UUID))
@@ -100,10 +100,10 @@ public class TeamControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id").doesNotExist())
-                .andExpect(jsonPath("$.title",containsString(TITLE)))
-                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
-                .andExpect(jsonPath("$.identity", containsString(DTOUtils.VALID_UUID_STRING)));
+                .andExpect(jsonPath("$[0].id").doesNotExist())
+                .andExpect(jsonPath("$[0].title",containsString(TITLE)))
+                .andExpect(jsonPath("$[0].uuid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$[0].identity", containsString(DTOUtils.VALID_UUID_STRING)));
     }
 
     @Test

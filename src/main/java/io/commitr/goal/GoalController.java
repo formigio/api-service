@@ -35,10 +35,6 @@ public class GoalController {
 	public List<Goal> getGoalByTeam(@RequestParam("team") UUID uuid) {
 		List<Goal> goals = goalService.getGoalsByTeam(uuid);
 
-		if (goals.size() == 0) {
-			throw new ResourceNotFoundException();
-		}
-
 		return goals;
 	}
 }

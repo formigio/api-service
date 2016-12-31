@@ -57,7 +57,7 @@ public class GoalIntegrationTest extends AbstractIntegrationTest{
     public void createGoalWithInvalidGuid() throws Exception{
 
         String content = "{" +
-                "    \"guid\":\"invalid-string-format\"," +
+                "    \"uuid\":\"invalid-string-format\"," +
                 "    \"title\":\"Test Goal\"" +
                 "}";
 
@@ -106,9 +106,11 @@ public class GoalIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     public void getGoalsByNonValidTeam() throws Exception {
-        ResponseEntity<Goal> response = this.restTemplate.getForEntity(format("/goal?team=%s", DTOUtils.NON_VALID_UUID_STRING), Goal.class);
+        ResponseEntity<Goal[]> response = this.restTemplate.getForEntity(format("/goal?team=%s", DTOUtils.NON_VALID_UUID_STRING), Goal[].class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        Goal[] goals = response.getBody();
+
+        assertThat(goals.length).isEqualTo(0);
 
     }
 
