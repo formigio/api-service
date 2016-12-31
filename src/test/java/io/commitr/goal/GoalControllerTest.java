@@ -112,7 +112,8 @@ public class GoalControllerTest {
     public void getGoalByNonValidTeam() throws Exception {
         this.mvc.perform(get("/goal?team=" + DTOUtils.NON_VALID_UUID_STRING)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isNotFound());
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(0)));
 
     }
 
