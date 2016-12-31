@@ -75,17 +75,17 @@ public class TeamIntegrationTest extends AbstractIntegrationTest {
                 Team.of("Test Team", null, DTOUtils.VALID_UUID),
                 Team.class);
 
-        Team team = this.restTemplate.getForObject(format("/team/%s", response.getUuid().toString()), Team.class);
+        Team[] team = this.restTemplate.getForObject(format("/team/%s", response.getUuid().toString()), Team[].class);
 
-        assertThat(team.getUuid()).isEqualByComparingTo(response.getUuid());
+        assertThat(team[0].getUuid()).isEqualByComparingTo(response.getUuid());
     }
 
     @Test
     public void getNonExistentTeam() throws Exception {
 
-        ResponseEntity<Team> response = this.restTemplate.getForEntity(format("/team/%s", DTOUtils.NON_VALID_UUID_STRING), Team.class);
+        ResponseEntity<Team[]> response = this.restTemplate.getForEntity(format("/team/%s", DTOUtils.NON_VALID_UUID_STRING), Team[].class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getBody().length).isZero();
 
     }
 

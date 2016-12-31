@@ -57,7 +57,7 @@ public class GoalIntegrationTest extends AbstractIntegrationTest{
     public void createGoalWithInvalidGuid() throws Exception{
 
         String content = "{" +
-                "    \"guid\":\"invalid-string-format\"," +
+                "    \"uuid\":\"invalid-string-format\"," +
                 "    \"title\":\"Test Goal\"" +
                 "}";
 

@@ -9,6 +9,6 @@ import java.util.UUID;
  * Created by Peter Douglas on 10/8/2016.
  */
 public interface TeamRepository extends JpaRepository<Team, Long> {
-    public Team findByUuid(UUID uuid);
-    public List<Team>findByIdentity(UUID uuid);
+    public List<Team> findByUuid(UUID uuid);
+    public List<Team> findByIdentity(UUID uuid);
 }

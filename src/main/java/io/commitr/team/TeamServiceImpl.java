@@ -21,7 +21,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team getTeam(UUID uuid) {
+    public List<Team> getTeam(UUID uuid) {
         return repository.findByUuid(uuid);
     }
 

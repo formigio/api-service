@@ -42,14 +42,14 @@ public class TeamController {
 
     @DeleteMapping("/{uuid}")
     public void deleteTeam(@PathVariable UUID uuid) {
-        Team t = service.getTeam(uuid);
+        List<Team> t = service.getTeam(uuid);
 
-        service.deleteTeam(t);
+        service.deleteTeam(t.get(0));
     }
 
     @GetMapping("/{uuid}")
-    public Team getTeam(@PathVariable UUID uuid) {
-        Team team = service.getTeam(uuid);
+    public List<Team> getTeam(@PathVariable UUID uuid) {
+        List<Team> team = service.getTeam(uuid);
 
         if(Objects.isNull(team)) {
             throw new ResourceNotFoundException();

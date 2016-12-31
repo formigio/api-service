@@ -35,7 +35,7 @@ public class GoalTest {
         JsonContent<Goal> content = this.json.write(goal);
 
         content.assertThat().doesNotHaveJsonPathValue("$.id");
-        content.assertThat().hasJsonPathStringValue("$.guid", DTOUtils.VALID_UUID_STRING);
+        content.assertThat().hasJsonPathStringValue("$.uuid", DTOUtils.VALID_UUID_STRING);
         content.assertThat().hasJsonPathStringValue("$.title", "Goal Test");
         content.assertThat().hasJsonPathStringValue("$.team", DTOUtils.VALID_UUID_STRING);
     }
@@ -45,7 +45,7 @@ public class GoalTest {
 
         String content = "{" +
                 "    \"id\":1," +
-                "    \"guid\":\"" + DTOUtils.VALID_UUID_STRING + "\"," +
+                "    \"uuid\":\"" + DTOUtils.VALID_UUID_STRING + "\"," +
                 "    \"title\":\"Test Goal\"," +
                 "    \"team\":\"" + DTOUtils.VALID_UUID_STRING + "\"" +
                 "}";

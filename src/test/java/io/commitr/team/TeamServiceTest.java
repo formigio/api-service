@@ -50,7 +50,7 @@ public class TeamServiceTest {
         given(this.teamRepository.save(teamMock))
                 .willReturn(Team.of("Test Team", DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
         given(this.teamRepository.findByUuid(DTOUtils.VALID_UUID))
-                .willReturn(Team.of("Test Team", DTOUtils.VALID_UUID, DTOUtils.VALID_UUID));
+                .willReturn(Stream.of(Team.of("Test Team", DTOUtils.VALID_UUID, DTOUtils.VALID_UUID)).collect(Collectors.toList()));
         given(this.teamRepository.findByIdentity(DTOUtils.VALID_UUID))
                 .willReturn(Stream.of(teamMock, teamMock).collect(Collectors.toList()));
 
@@ -71,19 +71,19 @@ public class TeamServiceTest {
 
     @Test
     public void getTeamByUuid() throws Exception {
-        Team team = teamService.getTeam(DTOUtils.VALID_UUID);
+        List<Team> team = teamService.getTeam(DTOUtils.VALID_UUID);
 
         assertThat(team).isNotNull();
-        assertThat(team.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
-        assertThat(team.getIdentity()).isEqualTo(DTOUtils.VALID_UUID);
-        assertThat(team.getTitle()).isEqualTo("Test Team");
+        assertThat(team.get(0).getUuid()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(team.get(0).getIdentity()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(team.get(0).getTitle()).isEqualTo("Test Team");
     }
 
     @Test
     public void getTeamByNonValidUuid() throws Exception {
-        Team team = teamService.getTeam(DTOUtils.NON_VALID_UUID);
+        List<Team> team = teamService.getTeam(DTOUtils.NON_VALID_UUID);
 
-        assertThat(team).isNull();
+        assertThat(team).isEmpty();
 
     }
 
