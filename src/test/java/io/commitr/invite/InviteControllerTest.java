@@ -66,7 +66,7 @@ public class InviteControllerTest {
     @Test
     public void testPostInviteWithValidGoal() throws Exception {
         String inviteJson = "{\n" +
-                "    \"guid\":null,\n" +
+                "    \"uuid\":null,\n" +
                 "    \"goal\":\"" + DTOUtils.VALID_UUID_STRING + "\"\n" +
                 "}";
 
@@ -74,14 +74,14 @@ public class InviteControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(inviteJson))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.goal", containsString(DTOUtils.VALID_UUID_STRING)));
     }
 
     @Test
     public void testPostInviteWithInvalidGoal() throws Exception {
         String inviteJson = "{\n" +
-                "    \"guid\":null,\n" +
+                "    \"uuid\":null,\n" +
                 "    \"goal\":\"" + DTOUtils.NON_VALID_UUID_STRING + "\"\n" +
                 "}";
 
@@ -98,7 +98,7 @@ public class InviteControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.goal", containsString(DTOUtils.VALID_UUID_STRING)));
 
     }
@@ -117,7 +117,7 @@ public class InviteControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.goal", containsString(DTOUtils.VALID_UUID_STRING)));
 
     }

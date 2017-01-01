@@ -26,7 +26,7 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
                 Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         String content = "{" +
-                "    \"guid\":null," +
+                "    \"uuid\":null," +
                 "    \"goal\":\"" + response.getUuid().toString() + "\"" +
                 "}";
 
@@ -46,7 +46,7 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
     @Test
     public void createInviteWithInvalidGoal() throws Exception {
         String content = "{" +
-                "    \"guid\":null," +
+                "    \"uuid\":null," +
                 "    \"goal\":\"" + DTOUtils.NON_VALID_UUID_STRING + "\"" +
                 "}";
 
@@ -63,7 +63,7 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
     @Test
     public void createInviteWithInvalidFormat() throws Exception {
         String content = "{" +
-                "    \"guid\":null," +
+                "    \"uuid\":null," +
                 "    \"goal\":\"invalid-guid-format\"" +
                 "}";
 

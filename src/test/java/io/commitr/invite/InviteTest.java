@@ -25,7 +25,7 @@ public class InviteTest {
     public void testDeserialize() throws Exception {
         String content = "{\n" +
                 "    \"id\": 1,\n" +
-                "    \"guid\": \"" + DTOUtils.VALID_UUID_STRING+ "\",\n" +
+                "    \"uuid\": \"" + DTOUtils.VALID_UUID_STRING+ "\",\n" +
                 "    \"goal\": \"" + DTOUtils.VALID_UUID_STRING+ "\"\n" +
                 "}";
 
@@ -49,8 +49,8 @@ public class InviteTest {
         assertThat(content)
                 .doesNotHaveJsonPathValue("$.id");
         assertThat(content)
-                .hasJsonPathStringValue("$.guid")
-                .extractingJsonPathStringValue("$.guid").isEqualTo(DTOUtils.VALID_UUID_STRING);
+                .hasJsonPathStringValue("$.uuid")
+                .extractingJsonPathStringValue("$.uuid").isEqualTo(DTOUtils.VALID_UUID_STRING);
         assertThat(content)
                 .hasJsonPathValue("$.goal")
                 .extractingJsonPathStringValue("$.goal").isEqualTo(DTOUtils.VALID_UUID_STRING);

@@ -24,7 +24,6 @@ public class Invite {
     @JsonIgnore
     private Long id;
 
-    @JsonProperty(value = "guid")
     @NotNull
     private UUID uuid;
 
