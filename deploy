@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+DOCKER_BIN=$(which docker)
+if [ -z "$DOCKER_BIN" ]
+    then
+    echo "We can't find the docker executable. Docker is required for this service"
+    exit
+fi
+
+SERVICE_IMAGE=$(docker images 'commitr_service:latest' -q)
+if [ -z "$SERVICE_IMAGE" ]
+    then
+    echo "You need to build down the service docker image for this service to run"
+    echo "Build now? (y/n)"
+    read BUILDOPTION
+    if [ "$BUILDOPTION" = "y" ] || [ "$BUILDOPTION" = "Y" ]
+        then
+        ./buildimage
+    else
+        exit
+    fi
+fi
+
+echo 'Starting Docker Container for the Formigio Service'
+
+docker run -d -p "80:8080" -v /opt/formigio/db/data:/var/hsqldb/data commitr_service:latest

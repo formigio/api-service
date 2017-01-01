@@ -21,6 +21,34 @@ if [ -z "$OPENJDK_IMAGE" ]
     fi
 fi
 
+GRADLE_IMAGE=$(docker images gradlebox -q)
+if [ -z "$GRADLE_IMAGE" ]
+    then
+    echo "You need to build the gradle box docker image for this build"
+    echo "Build now? (y/n)"
+    read BUILDGRADLEBOX
+    if [ "$BUILDGRADLEBOX" = "y" ] || [ "$BUILDGRADLEBOX" = "Y" ]
+        then
+        docker build docker/gradlebox/ -t gradlebox
+    else
+        exit
+    fi
+fi
+
+BUILDER_IMAGE=$(docker images formigiobuilder -q)
+if [ -z "$BUILDER_IMAGE" ]
+    then
+    echo "You need to build the formigio builder box docker image for this build"
+    echo "Build now? (y/n)"
+    read BUILDERBOX
+    if [ "$BUILDERBOX" = "y" ] || [ "$BUILDERBOX" = "Y" ]
+        then
+        docker build . -t formigiobuilder -f FormigioBuildDockerfile
+    else
+        exit
+    fi
+fi
+
 # TESTINGPARAM=""
 # echo "Run without tests? (y/n)"
 # read SKIPTESTS
@@ -31,7 +59,7 @@ fi
 
 echo "Building the Java App Jar file... "
 
-docker run -v $(pwd):/var/service -w="/var/service" openjdk /var/service/gradlew clean build
+docker run -v $(pwd):/var/service -w="/var/service" formigiobuilder gradle clean build
 
 echo "Building the Docker Image... "
 

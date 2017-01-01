@@ -1,0 +1,7 @@
+FROM gradlebox
+
+WORKDIR /var/service
+
+COPY . /var/service
+
+RUN gradle clean build
