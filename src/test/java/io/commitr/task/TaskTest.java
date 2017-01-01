@@ -38,8 +38,8 @@ public class TaskTest {
         assertThat(taskJson)
                 .doesNotHaveJsonPathValue("$.id");
         assertThat(taskJson)
-                .hasJsonPathStringValue("$.guid")
-                .extractingJsonPathStringValue("$.guid").isEqualTo(DTOUtils.VALID_UUID_STRING);
+                .hasJsonPathStringValue("$.uuid")
+                .extractingJsonPathStringValue("$.uuid").isEqualTo(DTOUtils.VALID_UUID_STRING);
         assertThat(taskJson)
                 .hasJsonPathStringValue("$.title");
         assertThat(taskJson)
@@ -57,7 +57,7 @@ public class TaskTest {
                 "    \"title\": \"Task Test\"," +
                 "    \"goal\": \"ab13ca05-6706-45e1-b2aa-2394fc09d3a0\"," +
                 "    \"completed\": true," +
-                "    \"guid\": \"ab13ca05-6706-45e1-b2aa-2394fc09d3a0\"" +
+                "    \"uuid\": \"ab13ca05-6706-45e1-b2aa-2394fc09d3a0\"" +
                 "}";
 
         Task task = this.json.parseObject(content);
