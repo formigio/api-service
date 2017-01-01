@@ -21,6 +21,8 @@ if [ -z "$SERVICE_IMAGE" ]
     fi
 fi
 
-echo 'Starting Docker Container for the Formigio Service'
+echo 'Stopping Formigio Data Service'
+docker stop formigio_data_service && docker rm formigio_data_service
 
-docker run -d -p "80:8080" -v /opt/formigio/db/data:/var/hsqldb/data commitr_service:latest
+echo 'Starting Docker Container for the Formigio Service'
+docker run -d -p "80:8080" --name formigio_data_service -v /opt/formigio/db/data:/var/hsqldb/data commitr_service:latest
