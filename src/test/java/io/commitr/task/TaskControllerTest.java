@@ -89,7 +89,7 @@ public class TaskControllerTest {
                 .content(JsonUtils.convertObject(dtoNotCompleted)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)))
+                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
                 .andExpect(jsonPath("$.title", containsString("Test Task")));
 
     }
@@ -101,7 +101,7 @@ public class TaskControllerTest {
         this.mvc.perform(get(format("/task/%s", DTOUtils.VALID_UUID_STRING)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.guid", containsString(DTOUtils.VALID_UUID_STRING)));
+                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)));
 
     }
 

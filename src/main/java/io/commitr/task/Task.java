@@ -36,7 +36,6 @@ public class Task {
     private Long id;
 
     @NotNull(groups = {Put.class})
-    @JsonProperty("guid")
     private UUID uuid;
 
     @Length(max = 255)
