@@ -6,6 +6,7 @@ import io.commitr.controller.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -44,12 +45,9 @@ public class InviteController {
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
-    public Invite getInviteByGoal(@RequestParam("goal") UUID uuid) {
-        Invite i = inviteService.getInviteByGoal(uuid);
-
-        if(null==i){
-            throw new ResourceNotFoundException();
-        }
+    public List<Invite> getInviteByEntity(@RequestParam("entity") UUID entity,
+                                    @RequestParam("entityType") String entityType) {
+        List<Invite> i = inviteService.getInviteByEntityAndEntityType(entity, entityType);
 
         return i;
     }

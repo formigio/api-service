@@ -1,6 +1,7 @@
 package io.commitr.invite;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -10,6 +11,6 @@ public interface InviteService {
     public Invite saveInvite(Invite invite);
     public Invite updateInvite(Invite invite);
     public Invite getInvite(UUID uuid);
-    public Invite getInviteByGoal(UUID uuid);
+    public List<Invite> getInviteByEntityAndEntityType(UUID entity, String entityType);
     public void deleteInvite(UUID uuid);
 }

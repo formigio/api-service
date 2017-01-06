@@ -2,6 +2,7 @@ package io.commitr.invite;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -11,5 +12,5 @@ public interface InviteRepository extends JpaRepository<Invite, Long>{
 
     Invite findByUuid(UUID uuid);
 
-    Invite findByGoal(UUID uuid);
+    List<Invite> findByEntityAndEntityType(UUID entity, String entityType);
 }

@@ -26,14 +26,14 @@ public class InviteTest {
         String content = "{\n" +
                 "    \"id\": 1,\n" +
                 "    \"uuid\": \"" + DTOUtils.VALID_UUID_STRING+ "\",\n" +
-                "    \"goal\": \"" + DTOUtils.VALID_UUID_STRING+ "\"\n" +
+                "    \"entity\": \"" + DTOUtils.VALID_UUID_STRING+ "\"\n" +
                 "}";
 
         Invite invite = this.json.parseObject(content);
 
         assertThat(invite.getId()).isNull();
         assertThat(invite.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
-        assertThat(invite.getGoal()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(invite.getEntity()).isEqualTo(DTOUtils.VALID_UUID);
 
     }
 
@@ -42,7 +42,7 @@ public class InviteTest {
         Invite invite = new Invite();
 
         invite.setUuid(DTOUtils.VALID_UUID);
-        invite.setGoal(DTOUtils.VALID_UUID);
+        invite.setEntity(DTOUtils.VALID_UUID);
 
         JsonContent<Invite> content = this.json.write(invite);
 
@@ -52,8 +52,8 @@ public class InviteTest {
                 .hasJsonPathStringValue("$.uuid")
                 .extractingJsonPathStringValue("$.uuid").isEqualTo(DTOUtils.VALID_UUID_STRING);
         assertThat(content)
-                .hasJsonPathValue("$.goal")
-                .extractingJsonPathStringValue("$.goal").isEqualTo(DTOUtils.VALID_UUID_STRING);
+                .hasJsonPathValue("$.entity")
+                .extractingJsonPathStringValue("$.entity").isEqualTo(DTOUtils.VALID_UUID_STRING);
 
     }
 }

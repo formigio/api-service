@@ -28,7 +28,16 @@ public class Invite {
     private UUID uuid;
 
     @NotNull
-    private UUID goal;
+    private UUID entity;
+
+    @NotNull
+    private String entityType;
+
+    @NotNull
+    private String invitee;
+
+    @NotNull
+    private String inviter;
 
     @PrePersist
     void prePersist() {
@@ -37,10 +46,13 @@ public class Invite {
         }
     }
 
-    public static Invite of(UUID uuid, UUID goal) {
+    public static Invite of(UUID uuid, UUID entity, String entityType, String intivee, String inviter) {
         Invite i = new Invite();
         i.setUuid(uuid);
-        i.setGoal(goal);
+        i.setEntity(entity);
+        i.setEntityType(entityType);
+        i.setInviter(inviter);
+        i.setInvitee(intivee);
         return i;
     }
 

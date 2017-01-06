@@ -5,6 +5,7 @@ import io.commitr.goal.GoalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -16,16 +17,8 @@ public class InviteServiceImpl implements InviteService {
     @Autowired
     private InviteRepository inviteRepository;
 
-    @Autowired
-    private GoalService goalService;
-
     @Override
     public Invite saveInvite(Invite invite) {
-        Goal g = goalService.getGoal(invite.getGoal());
-
-        if(null==g) {
-            return null;
-        }
 
         inviteRepository.save(invite);
 
@@ -43,8 +36,8 @@ public class InviteServiceImpl implements InviteService {
     }
 
     @Override
-    public Invite getInviteByGoal(UUID uuid) {
-        return inviteRepository.findByGoal(uuid);
+    public List<Invite> getInviteByEntityAndEntityType(UUID entity, String entityType) {
+        return inviteRepository.findByEntityAndEntityType(entity, entityType);
     }
 
     @Override
