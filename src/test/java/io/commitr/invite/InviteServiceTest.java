@@ -17,6 +17,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -43,6 +47,9 @@ public class InviteServiceTest {
     @Autowired
     InviteService service;
 
+    private final String INVITER = "inviter";
+    private final String INVITEE = "invitee";
+
     @Before
     public void setUp() throws Exception {
         given(inviteRepository.save(inviteMock))
@@ -54,10 +61,10 @@ public class InviteServiceTest {
         given(inviteRepository.findByUuid(DTOUtils.NON_VALID_UUID))
                 .willReturn(null);
 
-        given(inviteRepository.findByGoal(DTOUtils.VALID_UUID))
-                .willReturn(inviteMock);
+        given(inviteRepository.findByEntityAndEntityType(DTOUtils.VALID_UUID, "goal"))
+                .willReturn(Stream.of(inviteMock).collect(Collectors.toList()));
 
-        given(inviteRepository.findByGoal(DTOUtils.NON_VALID_UUID))
+        given(inviteRepository.findByEntityAndEntityType(DTOUtils.NON_VALID_UUID, "goal"))
                 .willReturn(null);
 
         given(goalService.getGoal(DTOUtils.VALID_UUID))
@@ -68,25 +75,17 @@ public class InviteServiceTest {
 
         when(inviteMock.getId()).thenReturn(1L);
         when(inviteMock.getUuid()).thenReturn(DTOUtils.VALID_UUID);
-        when(inviteMock.getGoal()).thenReturn(DTOUtils.VALID_UUID);
+        when(inviteMock.getEntity()).thenReturn(DTOUtils.VALID_UUID);
 
         when(goalMock.getUuid()).thenReturn(DTOUtils.VALID_UUID);
     }
 
     @Test
-    public void testSaveInviteWithValidGoal() throws Exception {
+    public void testSaveInviteWithValidEntity() throws Exception {
         Invite invite = service.saveInvite(inviteMock);
 
         assertThat(invite).isNotNull();
         verify(inviteRepository, times(1)).save(inviteMock);
-    }
-
-    @Test
-    public void testSaveInviteWithNonValidGoal() throws Exception {
-
-        Invite invite = service.saveInvite(Invite.of(DTOUtils.VALID_UUID, DTOUtils.NON_VALID_UUID));
-
-        assertThat(invite).isNull();
     }
 
     @Test
@@ -106,14 +105,14 @@ public class InviteServiceTest {
 
     @Test
     public void testFindWhenValidGoal() throws Exception {
-        Invite invite = service.getInviteByGoal(DTOUtils.VALID_UUID);
+        List<Invite> invite = service.getInviteByEntityAndEntityType(DTOUtils.VALID_UUID, "goal");
 
         assertThat(invite).isNotNull();
     }
 
     @Test
     public void testFindWhenNonValidGoal() throws Exception {
-        Invite invite = service.getInviteByGoal(DTOUtils.NON_VALID_UUID);
+        List<Invite> invite = service.getInviteByEntityAndEntityType(DTOUtils.NON_VALID_UUID, "goal");
 
         assertThat(invite).isNull();
 

@@ -1,6 +1,7 @@
 package io.commitr.invite;
 
 import io.commitr.util.DTOUtils;
+import net.minidev.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,6 +41,9 @@ public class InviteControllerTest {
 
     @MockBean
     private InviteService service;
+
+    private final String INVITER = "inviter";
+    private final String INVITEE = "invitee";
 
     @Before
     public void setUp() throws Exception {
@@ -71,16 +75,17 @@ public class InviteControllerTest {
     @Test
     public void testPostInviteWithValidGoal() throws Exception {
         String inviteJson = "{\n" +
-                "    \"uuid\":null,\n" +
-                "    \"goal\":\"" + DTOUtils.VALID_UUID_STRING + "\"\n" +
+                "    \"uuid\": null,\n" +
+                "    \"entity\": \"" + DTOUtils.VALID_UUID_STRING+ "\",\n" +
+                "    \"entityType\": \"goal\",\n" +
+                "    \"inviter\": \"" + INVITER + "\",\n" +
+                "    \"invitee\": \"" + INVITEE + "\"\n" +
                 "}";
 
         this.mvc.perform(post("/invite")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(inviteJson))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
-                .andExpect(jsonPath("$.goal", containsString(DTOUtils.VALID_UUID_STRING)));
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -102,9 +107,7 @@ public class InviteControllerTest {
         this.mvc.perform(get(format("/invite/%s", DTOUtils.VALID_UUID_STRING))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
-                .andExpect(jsonPath("$.goal", containsString(DTOUtils.VALID_UUID_STRING)));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 
     }
 
@@ -118,20 +121,20 @@ public class InviteControllerTest {
 
     @Test
     public void testGetInviteWithValidGoal() throws Exception {
-        this.mvc.perform(get(format("/invite?goal=%s", DTOUtils.VALID_UUID_STRING))
+        this.mvc.perform(get(format("/invite?entity=%s&entityType=goal", DTOUtils.VALID_UUID_STRING))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.uuid", containsString(DTOUtils.VALID_UUID_STRING)))
-                .andExpect(jsonPath("$.goal", containsString(DTOUtils.VALID_UUID_STRING)));
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(1)));
 
     }
 
     @Test
     public void testGetInviteWithInvalidGoal() throws Exception {
-        this.mvc.perform(get(format("/invite?goal=%s", DTOUtils.NON_VALID_UUID_STRING))
+        this.mvc.perform(get(format("/invite?entity=%s&entityType=goal", DTOUtils.NON_VALID_UUID_STRING))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
     }
 
     @Test

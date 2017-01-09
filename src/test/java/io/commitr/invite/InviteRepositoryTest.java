@@ -42,7 +42,7 @@ public class InviteRepositoryTest {
     public void testFindInviteByUuid() throws Exception {
         Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter"));
+        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter");
 
         repository.save(i);
 
@@ -56,7 +56,7 @@ public class InviteRepositoryTest {
     public void testFindInviteByGoal() throws Exception {
         Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter"));
+        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter");
 
         repository.save(i);
 
@@ -71,7 +71,7 @@ public class InviteRepositoryTest {
     public void testFindGoalByInvite() throws Exception {
         Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter"));
+        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter");
 
         repository.save(i);
 
@@ -88,7 +88,7 @@ public class InviteRepositoryTest {
     public void testDelete() throws Exception {
         Goal g = goalRepository.save(Goal.of(null, "Test Goal", DTOUtils.VALID_UUID));
 
-        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter"));
+        Invite i = Invite.of(null, g.getUuid(), "goal", "invitee", "inviter");
 
         repository.saveAndFlush(i);
 

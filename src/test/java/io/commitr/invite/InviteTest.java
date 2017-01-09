@@ -19,14 +19,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class InviteTest {
 
     @Autowired
-    JacksonTester<Invite> json;
+    private JacksonTester<Invite> json;
+
+    private final String INVITER = "inviter";
+    private final String INVITEE = "invitee";
 
     @Test
     public void testDeserialize() throws Exception {
         String content = "{\n" +
                 "    \"id\": 1,\n" +
                 "    \"uuid\": \"" + DTOUtils.VALID_UUID_STRING+ "\",\n" +
-                "    \"entity\": \"" + DTOUtils.VALID_UUID_STRING+ "\"\n" +
+                "    \"entity\": \"" + DTOUtils.VALID_UUID_STRING+ "\",\n" +
+                "    \"entityType\": \"goal\",\n" +
+                "    \"inviter\": \"" + INVITER + "\",\n" +
+                "    \"invitee\": \"" + INVITEE + "\"\n" +
                 "}";
 
         Invite invite = this.json.parseObject(content);
@@ -34,6 +40,9 @@ public class InviteTest {
         assertThat(invite.getId()).isNull();
         assertThat(invite.getUuid()).isEqualTo(DTOUtils.VALID_UUID);
         assertThat(invite.getEntity()).isEqualTo(DTOUtils.VALID_UUID);
+        assertThat(invite.getEntityType()).isEqualTo("goal");
+        assertThat(invite.getInviter()).isEqualTo(INVITER);
+        assertThat(invite.getInvitee()).isEqualTo(INVITEE);
 
     }
 
@@ -43,6 +52,9 @@ public class InviteTest {
 
         invite.setUuid(DTOUtils.VALID_UUID);
         invite.setEntity(DTOUtils.VALID_UUID);
+        invite.setEntityType("goal");
+        invite.setInviter(INVITER);
+        invite.setInvitee(INVITEE);
 
         JsonContent<Invite> content = this.json.write(invite);
 
@@ -54,6 +66,15 @@ public class InviteTest {
         assertThat(content)
                 .hasJsonPathValue("$.entity")
                 .extractingJsonPathStringValue("$.entity").isEqualTo(DTOUtils.VALID_UUID_STRING);
+        assertThat(content)
+                .hasJsonPathValue("$.entityType")
+                .extractingJsonPathStringValue("$.entityType").isEqualTo("goal");
+        assertThat(content)
+                .hasJsonPathValue("$.inviter")
+                .extractingJsonPathStringValue("$.inviter").isEqualTo(INVITER);
+        assertThat(content)
+                .hasJsonPathValue("$.invitee")
+                .extractingJsonPathStringValue("$.invitee").isEqualTo(INVITEE);
 
     }
 }
