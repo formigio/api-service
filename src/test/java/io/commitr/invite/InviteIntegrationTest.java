@@ -40,7 +40,7 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
         assertThat(inviteResponse.getStatusCodeValue()).isEqualTo(201);
         assertThat(inviteResponse.getBody()).isNotNull();
         assertThat(inviteResponse.getBody().getUuid()).isNotNull();
-        assertThat(inviteResponse.getBody().getGoal()).isNotNull();
+        assertThat(inviteResponse.getBody().getEntity()).isNotNull();
     }
 
     @Test
@@ -83,7 +83,11 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
                 Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         this.restTemplate.postForObject("/invite",
-                Invite.of(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
+                Invite.of(DTOUtils.VALID_UUID,
+                        response.getUuid(),
+                        "goal",
+                        "inviter",
+                        "invitee"), Invite.class);
 
         ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
                 format("/invite/%s", DTOUtils.VALID_UUID_STRING), Invite.class);
@@ -91,7 +95,7 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
 
         assertThat(invite).isNotNull();
         assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(invite.getBody().getGoal()).isEqualTo(response.getUuid());
+        assertThat(invite.getBody().getEntity()).isEqualTo(response.getUuid());
 
     }
 
@@ -118,8 +122,12 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
         Goal response = this.restTemplate.postForObject("/goal",
                 Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
-        this.restTemplate.postForObject("/invite", Invite.of(null,
-                response.getUuid()), Invite.class);
+        this.restTemplate.postForObject("/invite",
+                Invite.of(null,
+                        response.getUuid(),
+                        "goal",
+                        "invitee",
+                        "inviter"), Invite.class);
 
         ResponseEntity<Invite> invite = this.restTemplate.getForEntity(
                 format("/invite?goal=%s", response.getUuid().toString()), Invite.class);
@@ -128,7 +136,7 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
         assertThat(invite).isNotNull();
         assertThat(invite.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(invite.getBody().getUuid()).isNotNull();
-        assertThat(invite.getBody().getGoal()).isEqualTo(response.getUuid());
+        assertThat(invite.getBody().getEntity()).isEqualTo(response.getUuid());
     }
 
     @Test
@@ -154,7 +162,11 @@ public class InviteIntegrationTest extends AbstractIntegrationTest{
                 Goal.of(null, "first goal", DTOUtils.VALID_UUID), Goal.class);
 
         this.restTemplate.postForObject("/invite",
-                Invite.of(DTOUtils.VALID_UUID, response.getUuid()), Invite.class);
+                Invite.of(DTOUtils.VALID_UUID,
+                        response.getUuid(),
+                        "goal",
+                        "inviter",
+                        "invitee"), Invite.class);
 
         ResponseEntity<Invite> inviteToDelete = this.restTemplate.getForEntity(
                 format("/invite/%s", DTOUtils.VALID_UUID_STRING), Invite.class);
